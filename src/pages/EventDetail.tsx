@@ -2,15 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Users, MapPin, Clock, CheckCircle, Send, AlertCircle, Star } from 'lucide-react';
 import { sendEmail, formatEventRegistrationEmail } from '../utils/emailService';
-import { useAdmin } from '../contexts/AdminContext';
-import LeaderManager from '../components/LeaderManager';
 import { db } from '../config/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { EventSubmission } from '../types/submissions';
 
 const EventDetail = () => {
   const { id } = useParams();
-  const { isAdminMode } = useAdmin();
   const [showRegistration, setShowRegistration] = useState(false);
   const [event, setEvent] = useState<EventSubmission | null>(null);
   const [loading, setLoading] = useState(true);
@@ -622,11 +619,30 @@ const EventDetail = () => {
       </section>
 
       {/* Event Organizers Section */}
-      <section className="py-16 bg-cream-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <LeaderManager type="event" entityId={id || ''} isAdmin={isAdminMode} />
-        </div>
-      </section>
+      {displayEvent && displayEvent.heads && displayEvent.heads.length > 0 && (
+        <section className="py-16 bg-cream-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-luxury-heading text-black mb-8 text-center">Event Organizers</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {displayEvent.heads.map((head, index) => (
+                <div key={head.id || index} className="luxury-card bg-cream-white p-6 text-center">
+                  {head.image && (
+                    <div className="mb-4">
+                      <img
+                        src={head.image}
+                        alt={head.name}
+                        className="w-24 h-24 rounded-full mx-auto object-cover border-4 border-vibrant-orange/20"
+                      />
+                    </div>
+                  )}
+                  <h3 className="text-xl font-luxury-heading text-black mb-2">{head.name}</h3>
+                  <p className="text-vibrant-orange-dark font-luxury-semibold mb-4">{head.designation}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Registration Modal */}
       {showRegistration && (
