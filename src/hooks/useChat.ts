@@ -17,6 +17,7 @@ import { httpsCallable } from 'firebase/functions';
 import { db, functions } from '../config/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { Chat, ChatMessage, BotResponse } from '../types/chat';
+import { chatCache } from '../utils/chatCache';
 
 // Rate limiting
 const RATE_LIMIT_WINDOW = 60000; // 1 minute
@@ -51,6 +52,9 @@ export const useChat = (): UseChatReturn => {
   
   // Rate limiting
   const rateLimitRef = useRef<{ count: number; resetTime: number }>({ count: 0, resetTime: 0 });
+  
+  // Cleanup refs
+  const unsubscribeRef = useRef<(() => void) | null>(null);
   
   // Cloud Functions
   const matchKbAnswer = httpsCallable(functions, 'matchKbAnswer');
@@ -111,13 +115,29 @@ export const useChat = (): UseChatReturn => {
     const chat = chats.find(c => c.id === chatId);
     if (chat) {
       setCurrentChat(chat);
-      loadMessages(chatId);
+      
+      // Cleanup previous listener
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current();
+      }
+      
+      // Set up new listener
+      unsubscribeRef.current = loadMessages(chatId);
     }
-  }, [chats]);
+  }, [chats, loadMessages]);
   
-  // Load chats
+  // Load chats with caching
   const loadChats = useCallback(async () => {
     if (!user) return;
+    
+    const cacheKey = `chats_${user.uid}`;
+    
+    // Check cache first
+    const cachedChats = chatCache.get<Chat[]>(cacheKey);
+    if (cachedChats) {
+      setChats(cachedChats);
+      return;
+    }
     
     try {
       setIsLoading(true);
@@ -137,6 +157,9 @@ export const useChat = (): UseChatReturn => {
       })) as Chat[];
       
       setChats(chatsData);
+      
+      // Cache the result for 2 minutes
+      chatCache.set(cacheKey, chatsData, 2 * 60 * 1000);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to load chats';
       setError(errorMessage);
@@ -145,7 +168,7 @@ export const useChat = (): UseChatReturn => {
     }
   }, [user]);
   
-  // Load messages for a chat
+  // Load messages for a chat - with unsubscribe cleanup
   const loadMessages = useCallback((chatId: string) => {
     if (!user) return;
     
@@ -154,7 +177,7 @@ export const useChat = (): UseChatReturn => {
       orderBy('createdAt', 'asc')
     );
     
-    return onSnapshot(messagesQuery, (snapshot) => {
+    const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
       const messagesData = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
@@ -166,6 +189,9 @@ export const useChat = (): UseChatReturn => {
       console.error('Error loading messages:', err);
       setError('Failed to load messages');
     });
+    
+    // Return unsubscribe function for cleanup
+    return unsubscribe;
   }, [user]);
   
   // Send message
@@ -223,12 +249,21 @@ export const useChat = (): UseChatReturn => {
     setError(null);
   }, []);
   
-  // Load chats on mount
+  // Load chats on mount - only once per session
   useEffect(() => {
-    if (user) {
+    if (user && chats.length === 0) {
       loadChats();
     }
-  }, [user, loadChats]);
+  }, [user]); // Removed loadChats dependency to prevent re-loading
+
+  // Cleanup listeners on unmount
+  useEffect(() => {
+    return () => {
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current();
+      }
+    };
+  }, []);
   
   return {
     chats,

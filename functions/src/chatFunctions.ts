@@ -5,10 +5,10 @@ import * as stringSimilarity from 'string-similarity';
 
 const db = admin.firestore();
 
-// In-memory cache for KB data
+// In-memory cache for KB data - optimized for Spark plan
 let kbCache: any[] = [];
 let cacheTimestamp = 0;
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL = 30 * 60 * 1000; // 30 minutes - longer cache to reduce reads
 
 // Profanity filter - simple wordlist
 const PROFANITY_WORDS = [
@@ -16,8 +16,18 @@ const PROFANITY_WORDS = [
   'hate', 'kill', 'die', 'death', 'blood', 'violence', 'attack'
 ];
 
-// Rate limiting store (in production, use Redis or similar)
+// Rate limiting store - optimized for Spark plan
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+// Clean up old rate limit entries to prevent memory leaks
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, value] of rateLimitStore.entries()) {
+    if (now > value.resetTime) {
+      rateLimitStore.delete(key);
+    }
+  }
+}, 5 * 60 * 1000); // Clean every 5 minutes
 
 interface ChatMessage {
   sender: 'user' | 'bot' | 'admin';
