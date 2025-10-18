@@ -132,7 +132,7 @@ const Home = () => {
         </video>
         
         {/* Video Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-logo-navy/90 via-logo-navy/85 to-vibrant-orange/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-logo-navy/92 via-logo-navy-light/88 to-logo-teal/85"></div>
         
         {/* Enhanced 3D Floating Elements */}
         <div className="floating-3d-luxury magnetic-element"></div>
@@ -151,9 +151,9 @@ const Home = () => {
         
         {/* Animated Background Shapes */}
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/20 rounded-full animate-float-gentle"></div>
-          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/20 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
-          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+          <div className="absolute top-20 left-20 w-32 h-32 bg-logo-teal/25 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal-light/25 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-logo-navy-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center relative z-10">
@@ -227,7 +227,7 @@ const Home = () => {
                 <div className="service-icon-luxury w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:animate-pulse-glow">
                   <stat.icon className="w-10 h-10 text-white group-hover:animate-float-gentle" />
                 </div>
-                <h3 className="text-5xl font-luxury-display impact-counter mb-4 animate-counter text-cream-elegant group-hover:text-vibrant-orange-light transition-colors">
+                <h3 className="text-5xl font-luxury-display impact-counter mb-4 animate-counter text-cream-elegant group-hover:text-logo-teal-light transition-colors">
                   {stat.key === 'lives' ? `${Math.floor(counters[stat.key] / 1000)}K+` : `${counters[stat.key]}+`}
                 </h3>
                 <p className="text-cream-elegant/90 font-luxury-medium text-lg group-hover:text-cream-elegant transition-colors">{stat.label}</p>
@@ -245,7 +245,7 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="relative scroll-reveal">
               <div className="luxury-card bg-logo-navy p-12 text-center relative overflow-hidden interactive-3d group">
-                <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/20 to-transparent group-hover:from-vibrant-orange/30 transition-all duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-logo-teal/20 to-transparent group-hover:from-logo-teal/30 transition-all duration-500"></div>
                 <div className="service-icon-luxury w-32 h-32 flex items-center justify-center mx-auto mb-8 group-hover:animate-pulse-glow">
                   <Heart className="w-16 h-16 text-white group-hover:animate-breathing" />
                 </div>
@@ -322,7 +322,7 @@ const Home = () => {
                 <p className={`font-elegant-body text-lg leading-relaxed relative z-10 group-hover:text-black transition-colors duration-300 ${program.color.includes('navy') ? 'text-cream-elegant/80' : 'text-black'}`}>
                   {program.description}
                 </p>
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-vibrant-orange to-vibrant-orange-light transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-logo-teal to-logo-teal-light transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
               </div>
             ))}
           </div>
@@ -357,7 +357,7 @@ const Home = () => {
                       alt={testimonial.name}
                       className="w-20 h-20 rounded-full object-cover border-4 border-vibrant-orange/30 group-hover:border-vibrant-orange transition-all duration-300"
                     />
-                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-vibrant-orange rounded-full flex items-center justify-center group-hover:animate-breathing">
+                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-logo-teal rounded-full flex items-center justify-center group-hover:animate-breathing">
                       <CheckCircle className="w-5 h-5 text-white" />
                     </div>
                   </div>
@@ -371,11 +371,11 @@ const Home = () => {
                 
                 <div className="flex mb-6">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-6 h-6 text-vibrant-orange fill-current group-hover:animate-pulse" style={{animationDelay: `${i * 0.1}s`}} />
+                    <Star key={i} className="w-6 h-6 text-logo-teal fill-current group-hover:animate-pulse" style={{animationDelay: `${i * 0.1}s`}} />
                   ))}
                 </div>
                 
-                <Quote className="w-10 h-10 text-vibrant-orange mb-6 group-hover:animate-float-gentle" />
+                <Quote className="w-10 h-10 text-logo-teal mb-6 group-hover:animate-float-gentle" />
                 <p className="font-elegant-body text-lg leading-relaxed luxury-quote text-black group-hover:text-gray-800 transition-colors duration-300">
                   {testimonial.quote}
                 </p>
@@ -398,9 +398,9 @@ const Home = () => {
         
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-40 h-40 bg-vibrant-orange/10 rounded-full animate-float-gentle"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-logo-teal/10 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-vibrant-orange-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+          <div className="absolute top-1/4 left-1/4 w-40 h-40 bg-logo-teal/10 rounded-full animate-float-gentle"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-logo-teal-light/10 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-logo-navy-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">

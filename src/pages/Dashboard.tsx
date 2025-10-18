@@ -318,7 +318,7 @@ const Dashboard = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-vibrant-orange mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-logo-teal mx-auto mb-4"></div>
           <p className="text-xl font-luxury-heading text-black">Loading your dashboard...</p>
         </div>
       </div>
@@ -342,14 +342,14 @@ const Dashboard = () => {
         </video>
         
         {/* Video Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-logo-navy/90 via-logo-navy/80 to-vibrant-orange/75"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-logo-navy/92 via-logo-navy-light/88 to-logo-teal/85"></div>
         
         {/* Animated Particles */}
         <div className="absolute inset-0 opacity-20">
           <div className="particle-container"></div>
-          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/20 rounded-full animate-float-gentle"></div>
-          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/20 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
-          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-cream-elegant/10 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+          <div className="absolute top-20 left-20 w-32 h-32 bg-logo-teal/25 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal-light/25 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-logo-navy-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
         </div>
 
         {/* Hero Content */}
@@ -474,7 +474,7 @@ const Dashboard = () => {
                         </h3>
                         <p className="text-sm text-black/70 group-hover:text-gray-800 transition-colors">{action.description}</p>
                       </div>
-                      <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-vibrant-orange group-hover:translate-x-1 transition-all duration-300" />
+                      <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-logo-teal group-hover:translate-x-1 transition-all duration-300" />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
                   </Link>
@@ -501,7 +501,7 @@ const Dashboard = () => {
                     onClick={() => setActiveFilter('all')}
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                       activeFilter === 'all' 
-                        ? 'bg-vibrant-orange text-white' 
+                        ? 'bg-logo-teal text-white' 
                         : 'bg-gray-100 text-black hover:bg-gray-200'
                     }`}
                   >
@@ -511,7 +511,7 @@ const Dashboard = () => {
                     onClick={() => setActiveFilter('applications')}
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                       activeFilter === 'applications' 
-                        ? 'bg-vibrant-orange text-white' 
+                        ? 'bg-logo-teal text-white' 
                         : 'bg-gray-100 text-black hover:bg-gray-200'
                     }`}
                   >
@@ -561,7 +561,7 @@ const Dashboard = () => {
                 <h2 className="text-2xl font-luxury-heading text-black">My Submissions</h2>
                 <Link
                   to="/create-submission"
-                  className="text-vibrant-orange hover:text-vibrant-orange-dark text-sm font-medium flex items-center"
+                  className="text-logo-teal hover:text-logo-teal-dark text-sm font-medium flex items-center"
                 >
                   <Plus className="w-4 h-4 mr-1" />
                   New Submission
@@ -581,7 +581,7 @@ const Dashboard = () => {
                     };
 
                     return (
-                      <div key={submission.id} className="p-4 border-2 border-gray-200 rounded-luxury hover:border-vibrant-orange transition-colors">
+                      <div key={submission.id} className="p-4 border-2 border-gray-200 rounded-luxury hover:border-logo-teal transition-colors">
                         <div className="flex items-start justify-between mb-2">
                           <h4 className="font-luxury-heading text-black">{submission.title}</h4>
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(submission.status)}`}>
@@ -643,7 +643,7 @@ const Dashboard = () => {
               <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-luxury-heading text-black">Upcoming Events</h3>
-                <Link to="/events" className="text-vibrant-orange hover:text-vibrant-orange-dark text-sm font-medium">
+                <Link to="/events" className="text-logo-teal hover:text-logo-teal-dark text-sm font-medium">
                   View All
                 </Link>
               </div>
@@ -685,7 +685,7 @@ const Dashboard = () => {
               <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-luxury-heading text-black">Recommended for You</h3>
-                <Link to="/projects" className="text-vibrant-orange hover:text-vibrant-orange-dark text-sm font-medium">
+                <Link to="/projects" className="text-logo-teal hover:text-logo-teal-dark text-sm font-medium">
                   View All
                 </Link>
               </div>
@@ -721,7 +721,7 @@ const Dashboard = () => {
                   alt="Community Connection"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/90 to-vibrant-orange-light/85"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-logo-teal/90 to-logo-teal-light/85"></div>
               </div>
               <div className="relative z-10">
               <h3 className="text-lg font-luxury-heading text-white mb-4">Complete Your Profile</h3>
@@ -741,7 +741,7 @@ const Dashboard = () => {
               </div>
               <Link 
                 to="/volunteer" 
-                className="block w-full text-center mt-4 px-4 py-2 bg-white text-vibrant-orange rounded-luxury hover:bg-cream-elegant transition-colors text-sm font-medium shadow-lg"
+                className="block w-full text-center mt-4 px-4 py-2 bg-white text-logo-teal rounded-luxury hover:bg-cream-elegant transition-colors text-sm font-medium shadow-lg"
               >
                 Complete Profile
               </Link>
