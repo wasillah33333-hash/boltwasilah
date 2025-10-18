@@ -376,35 +376,6 @@ const Dashboard = () => {
       </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 -mt-24 mb-12">
-        {/* Stats Cards - Enhanced with Background */}
-        <div className="mb-8 scroll-reveal">
-          <div className="luxury-card bg-white/95 backdrop-blur-sm p-8 relative overflow-hidden">
-            <div 
-              className="absolute inset-0 opacity-10"
-              style={{ background: currentTheme.colors.primary }}
-            ></div>
-            <div className="floating-3d-luxury opacity-20"></div>
-            <div className="relative z-10">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h1 className="text-4xl font-modern-display text-black mb-2 animate-text-reveal">
-                    Welcome back, {userData?.displayName || 'Friend'}! 👋
-                  </h1>
-                  <p className="text-xl text-black/70 font-elegant-body animate-text-reveal" style={{animationDelay: '0.3s'}}>
-                    Ready to make a difference today?
-                  </p>
-                </div>
-                <div className="text-right magnetic-element group">
-                  <div className="text-3xl font-modern-display text-gradient-animated group-hover:animate-pulse-glow" style={{ color: currentTheme.colors.primary }}>
-                    {stats.impactScore}
-                  </div>
-                  <div className="text-sm text-black/70 group-hover:text-gray-800 transition-colors">Impact Score</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Stats Cards Section with Background Image */}
         <div className="relative p-8 rounded-3xl overflow-hidden mb-12">
           {/* Background Image */}
@@ -467,15 +438,26 @@ const Dashboard = () => {
             <div className="text-sm text-black/70 group-hover:text-gray-800 transition-colors">Impact Score</div>
             <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
           </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Quick Actions - Enhanced */}
-            <div className="luxury-card bg-white p-8 scroll-reveal">
-              <h2 className="text-2xl font-modern-display text-black mb-6">Quick Actions</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 stagger-animation">
+            {/* Quick Actions - Enhanced with Background */}
+            <div className="luxury-card bg-white/95 backdrop-blur-sm p-8 scroll-reveal relative overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 opacity-10 z-0">
+                <img 
+                  src="https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                  alt="Community Service"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative z-10">
+                <h2 className="text-2xl font-modern-display text-black mb-6">Quick Actions</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 stagger-animation">
                 {quickActions.map((action, index) => (
                   <Link
                     key={index}
@@ -497,11 +479,21 @@ const Dashboard = () => {
                     <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
                   </Link>
                 ))}
+                </div>
               </div>
             </div>
 
-            {/* Recent Activity */}
-            <div className="luxury-card bg-white p-8">
+            {/* Recent Activity with Background */}
+            <div className="luxury-card bg-white/95 backdrop-blur-sm p-8 relative overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 opacity-10 z-0">
+                <img 
+                  src="https://images.pexels.com/photos/6647034/pexels-photo-6647034.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                  alt="Community Activity"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative z-10">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-luxury-heading text-black">Recent Activity</h2>
                 <div className="flex space-x-2">
@@ -551,10 +543,20 @@ const Dashboard = () => {
                   </div>
                 )}
               </div>
+              </div>
             </div>
 
-            {/* My Submissions */}
-            <div className="luxury-card bg-white p-8">
+            {/* My Submissions with Background */}
+            <div className="luxury-card bg-white/95 backdrop-blur-sm p-8 relative overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 opacity-10 z-0">
+                <img 
+                  src="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                  alt="Community Gathering"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative z-10">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-luxury-heading text-black">My Submissions</h2>
                 <Link
@@ -619,6 +621,7 @@ const Dashboard = () => {
                   </Link>
                 </div>
               )}
+              </div>
             </div>
 
             {/* My Drafts */}
@@ -627,8 +630,17 @@ const Dashboard = () => {
 
           {/* Sidebar */}
           <div className="space-y-8">
-            {/* Upcoming Events */}
-            <div className="luxury-card bg-white p-6">
+            {/* Upcoming Events with Background */}
+            <div className="luxury-card bg-white/95 backdrop-blur-sm p-6 relative overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 opacity-10 z-0">
+                <img 
+                  src="https://images.pexels.com/photos/6647112/pexels-photo-6647112.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                  alt="Community Events"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-luxury-heading text-black">Upcoming Events</h3>
                 <Link to="/events" className="text-vibrant-orange hover:text-vibrant-orange-dark text-sm font-medium">
@@ -657,10 +669,20 @@ const Dashboard = () => {
                   </div>
                 ))}
               </div>
+              </div>
             </div>
 
-            {/* Recommended Projects */}
-            <div className="luxury-card bg-white p-6">
+            {/* Recommended Projects with Background */}
+            <div className="luxury-card bg-white/95 backdrop-blur-sm p-6 relative overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 opacity-10 z-0">
+                <img 
+                  src="https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                  alt="Community Projects"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-luxury-heading text-black">Recommended for You</h3>
                 <Link to="/projects" className="text-vibrant-orange hover:text-vibrant-orange-dark text-sm font-medium">
@@ -687,31 +709,43 @@ const Dashboard = () => {
                   </div>
                 ))}
               </div>
+              </div>
             </div>
 
-            {/* Profile Completion */}
-            <div className="luxury-card bg-gradient-to-br from-vibrant-orange/10 to-vibrant-orange-light/10 p-6">
-              <h3 className="text-lg font-luxury-heading text-black mb-4">Complete Your Profile</h3>
+            {/* Profile Completion with Background */}
+            <div className="luxury-card p-6 relative overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 z-0">
+                <img 
+                  src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                  alt="Community Connection"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/90 to-vibrant-orange-light/85"></div>
+              </div>
+              <div className="relative z-10">
+              <h3 className="text-lg font-luxury-heading text-white mb-4">Complete Your Profile</h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-black">Basic Info</span>
-                  <CheckCircle className="w-4 h-4 text-green-500" />
+                  <span className="text-sm text-white">Basic Info</span>
+                  <CheckCircle className="w-4 h-4 text-green-300" />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-black">Interests</span>
-                  <CheckCircle className="w-4 h-4 text-green-500" />
+                  <span className="text-sm text-white">Interests</span>
+                  <CheckCircle className="w-4 h-4 text-green-300" />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-black">Skills</span>
-                  <div className="w-4 h-4 border-2 border-gray-300 rounded"></div>
+                  <span className="text-sm text-white">Skills</span>
+                  <div className="w-4 h-4 border-2 border-white rounded"></div>
                 </div>
               </div>
               <Link 
                 to="/volunteer" 
-                className="block w-full text-center mt-4 px-4 py-2 bg-vibrant-orange text-white rounded-luxury hover:bg-vibrant-orange-dark transition-colors text-sm font-medium"
+                className="block w-full text-center mt-4 px-4 py-2 bg-white text-vibrant-orange rounded-luxury hover:bg-cream-elegant transition-colors text-sm font-medium shadow-lg"
               >
                 Complete Profile
               </Link>
+              </div>
             </div>
           </div>
         </div>
