@@ -2,15 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Users, MapPin, Target, Clock, CheckCircle, Send, AlertCircle } from 'lucide-react';
 import { sendEmail, formatProjectApplicationEmail } from '../utils/emailService';
-import { useAdmin } from '../contexts/AdminContext';
-import LeaderManager from '../components/LeaderManager';
 import { db } from '../config/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { ProjectSubmission } from '../types/submissions';
 
 const ProjectDetail = () => {
   const { id } = useParams();
-  const { isAdminMode } = useAdmin();
   const [showApplication, setShowApplication] = useState(false);
   const [project, setProject] = useState<ProjectSubmission | null>(null);
   const [loading, setLoading] = useState(true);
@@ -559,13 +556,6 @@ const ProjectDetail = () => {
               </button>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Project Leaders Section */}
-      <section className="py-16 bg-cream-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <LeaderManager type="project" entityId={id || ''} isAdmin={isAdminMode} />
         </div>
       </section>
 
