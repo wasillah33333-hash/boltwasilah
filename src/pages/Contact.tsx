@@ -174,10 +174,10 @@ const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Contact Form */}
-          <div className="lg:col-span-2">
-            <div className="luxury-card bg-cream-white p-10">
-              <h3 className="text-3xl font-luxury-heading text-black mb-8">Send us a Message</h3>
+            {/* Contact Form - Enhanced */}
+            <div className="lg:col-span-2">
+              <div className="luxury-card bg-cream-white p-10 scroll-reveal">
+                <h3 className="text-3xl font-modern-display text-black mb-8">Send us a Message</h3>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -246,9 +246,9 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  className="w-full btn-luxury-primary py-4 px-8 flex items-center justify-center text-lg"
+                  className="w-full liquid-button py-4 px-8 flex items-center justify-center text-lg group"
                 >
-                  <Send className="mr-3 w-6 h-6" />
+                  <Send className="mr-3 w-6 h-6 group-hover:animate-float-gentle" />
                   Send Message
                 </button>
               </form>

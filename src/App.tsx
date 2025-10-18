@@ -14,6 +14,7 @@ import Events from './pages/Events';
 import EventDetail from './pages/EventDetail';
 import Volunteer from './pages/Volunteer';
 import Contact from './pages/Contact';
+import JoinUs from './pages/JoinUs';
 import Dashboard from './pages/Dashboard';
 import CreateSubmission from './pages/CreateSubmission';
 import ChatWidget from './components/ChatWidget';
@@ -44,6 +45,7 @@ const AppContent = () => {
           <Route path="/events/:id" element={<EventDetail />} />
           <Route path="/volunteer" element={<Volunteer />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/join-us" element={<JoinUs />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-submission" element={<CreateSubmission />} />
         </Routes>

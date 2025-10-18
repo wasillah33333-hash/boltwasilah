@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { User, Calendar, Target, Heart, TrendingUp, Clock, MapPin, Users, Award, Settings, Bell, BookOpen, Activity, Star, ChevronRight, Filter, Search, Plus, FileText, Eye, CreditCard as Edit3, CheckCircle } from 'lucide-react';
+import { User, Calendar, Target, Heart, TrendingUp, Clock, MapPin, Users, Award, Settings, Bell, BookOpen, Activity, Star, ChevronRight, Filter, Search, Plus, FileText, Eye, CreditCard as Edit3, CheckCircle, Sparkles, Zap } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { collection, query, where, getDocs, orderBy, limit, onSnapshot } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { ProjectSubmission, EventSubmission, SubmissionStatus } from '../types/submissions';
 import DraftsList from '../components/DraftsList';
+import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useMagneticEffect } from '../hooks/useMagneticEffect';
 
 interface DashboardActivity {
   id: string;
@@ -252,108 +254,122 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Welcome Header */}
-        <div className="mb-8">
+    <div className="min-h-screen bg-gray-50 py-12 relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="particle-container"></div>
+        <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/10 rounded-full animate-float-gentle"></div>
+        <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/10 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/5 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Welcome Header - Enhanced */}
+        <div className="mb-8 scroll-reveal">
           <div className="luxury-card bg-white p-8 relative overflow-hidden">
             <div 
               className="absolute inset-0 opacity-10"
               style={{ background: currentTheme.colors.primary }}
             ></div>
+            <div className="floating-3d-luxury opacity-20"></div>
             <div className="relative z-10">
               <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-4xl font-luxury-display text-black mb-2">
+                  <h1 className="text-4xl font-modern-display text-black mb-2 animate-text-reveal">
                     Welcome back, {userData?.displayName || 'Friend'}! 👋
                   </h1>
-                  <p className="text-xl text-black/70 font-luxury-body">
+                  <p className="text-xl text-black/70 font-elegant-body animate-text-reveal" style={{animationDelay: '0.3s'}}>
                     Ready to make a difference today?
                   </p>
                 </div>
-                <div className="text-right">
-                  <div className="text-3xl font-luxury-display" style={{ color: currentTheme.colors.primary }}>
+                <div className="text-right magnetic-element group">
+                  <div className="text-3xl font-modern-display text-gradient-animated group-hover:animate-pulse-glow" style={{ color: currentTheme.colors.primary }}>
                     {stats.impactScore}
                   </div>
-                  <div className="text-sm text-black/70">Impact Score</div>
+                  <div className="text-sm text-black/70 group-hover:text-gray-800 transition-colors">Impact Score</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="luxury-card bg-white p-6 text-center">
+        {/* Stats Cards - Enhanced */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 stagger-animation">
+          <div className="luxury-card bg-white p-6 text-center floating-card magnetic-element group">
             <div 
-              className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
+              className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse-glow"
               style={{ backgroundColor: `${currentTheme.colors.primary}20` }}
             >
-              <Target className="w-6 h-6" style={{ color: currentTheme.colors.primary }} />
+              <Target className="w-6 h-6 group-hover:animate-float-gentle" style={{ color: currentTheme.colors.primary }} />
             </div>
-            <div className="text-2xl font-luxury-display text-black mb-1">{stats.projectsJoined}</div>
-            <div className="text-sm text-black/70">Projects Joined</div>
+            <div className="text-2xl font-modern-display text-gradient-animated mb-1 group-hover:animate-pulse-glow">{stats.projectsJoined}</div>
+            <div className="text-sm text-black/70 group-hover:text-gray-800 transition-colors">Projects Joined</div>
+            <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
           </div>
 
-          <div className="luxury-card bg-white p-6 text-center">
+          <div className="luxury-card bg-white p-6 text-center floating-card magnetic-element group">
             <div 
-              className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
+              className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse-glow"
               style={{ backgroundColor: `${currentTheme.colors.accent}20` }}
             >
-              <Calendar className="w-6 h-6" style={{ color: currentTheme.colors.accent }} />
+              <Calendar className="w-6 h-6 group-hover:animate-float-gentle" style={{ color: currentTheme.colors.accent }} />
             </div>
-            <div className="text-2xl font-luxury-display text-black mb-1">{stats.eventsAttended}</div>
-            <div className="text-sm text-black/70">Events Attended</div>
+            <div className="text-2xl font-modern-display text-gradient-animated mb-1 group-hover:animate-pulse-glow">{stats.eventsAttended}</div>
+            <div className="text-sm text-black/70 group-hover:text-gray-800 transition-colors">Events Attended</div>
+            <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
           </div>
 
-          <div className="luxury-card bg-white p-6 text-center">
+          <div className="luxury-card bg-white p-6 text-center floating-card magnetic-element group">
             <div 
-              className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
+              className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse-glow"
               style={{ backgroundColor: `${currentTheme.colors.secondary}20` }}
             >
-              <Clock className="w-6 h-6" style={{ color: currentTheme.colors.secondary }} />
+              <Clock className="w-6 h-6 group-hover:animate-float-gentle" style={{ color: currentTheme.colors.secondary }} />
             </div>
-            <div className="text-2xl font-luxury-display text-black mb-1">{stats.hoursVolunteered}</div>
-            <div className="text-sm text-black/70">Hours Volunteered</div>
+            <div className="text-2xl font-modern-display text-gradient-animated mb-1 group-hover:animate-pulse-glow">{stats.hoursVolunteered}</div>
+            <div className="text-sm text-black/70 group-hover:text-gray-800 transition-colors">Hours Volunteered</div>
+            <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
           </div>
 
-          <div className="luxury-card bg-white p-6 text-center">
+          <div className="luxury-card bg-white p-6 text-center floating-card magnetic-element group">
             <div 
-              className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4"
+              className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse-glow"
               style={{ backgroundColor: `${currentTheme.colors.primary}20` }}
             >
-              <Award className="w-6 h-6" style={{ color: currentTheme.colors.primary }} />
+              <Award className="w-6 h-6 group-hover:animate-float-gentle" style={{ color: currentTheme.colors.primary }} />
             </div>
-            <div className="text-2xl font-luxury-display text-black mb-1">{stats.impactScore}</div>
-            <div className="text-sm text-black/70">Impact Score</div>
+            <div className="text-2xl font-modern-display text-gradient-animated mb-1 group-hover:animate-pulse-glow">{stats.impactScore}</div>
+            <div className="text-sm text-black/70 group-hover:text-gray-800 transition-colors">Impact Score</div>
+            <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Quick Actions */}
-            <div className="luxury-card bg-white p-8">
-              <h2 className="text-2xl font-luxury-heading text-black mb-6">Quick Actions</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Quick Actions - Enhanced */}
+            <div className="luxury-card bg-white p-8 scroll-reveal">
+              <h2 className="text-2xl font-modern-display text-black mb-6">Quick Actions</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 stagger-animation">
                 {quickActions.map((action, index) => (
                   <Link
                     key={index}
                     to={action.link}
-                    className="p-6 rounded-luxury border-2 border-gray-200 hover:border-vibrant-orange transition-all duration-300 hover:scale-105 group"
+                    className="p-6 rounded-luxury border-2 border-gray-200 floating-card magnetic-element group"
                   >
                     <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 ${action.color} rounded-full flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                        <action.icon className="w-6 h-6 text-white" />
+                      <div className={`w-12 h-12 ${action.color} rounded-full flex items-center justify-center group-hover:animate-pulse-glow group-hover:scale-110 transition-all duration-300`}>
+                        <action.icon className="w-6 h-6 text-white group-hover:animate-float-gentle" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-luxury-heading text-black group-hover:text-vibrant-orange transition-colors">
+                        <h3 className="font-luxury-heading text-black group-hover:text-gradient-animated transition-all duration-500">
                           {action.title}
                         </h3>
-                        <p className="text-sm text-black/70">{action.description}</p>
+                        <p className="text-sm text-black/70 group-hover:text-gray-800 transition-colors">{action.description}</p>
                       </div>
-                      <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-vibrant-orange transition-colors" />
+                      <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-vibrant-orange group-hover:translate-x-1 transition-all duration-300" />
                     </div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
                   </Link>
                 ))}
               </div>
