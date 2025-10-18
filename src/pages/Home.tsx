@@ -118,7 +118,7 @@ const Home = () => {
   return (
     <div>
       {/* Hero Section - Enhanced Emotional Design */}
-      <section className="hero-luxury-bg min-h-screen flex items-center justify-center relative overflow-hidden">
+      <section className="hero-luxury-bg hero-home min-h-screen flex items-center justify-center relative overflow-hidden">
         {/* Enhanced 3D Floating Elements */}
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
@@ -144,12 +144,20 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center relative z-10">
           <div className="animate-cinematic-fade">
             {/* Enhanced Central Logo */}
-            <div className="mb-16">
-              <div className="w-40 h-40 bg-gradient-to-br from-vibrant-orange to-vibrant-orange-light rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-luxury-glow-lg animate-luxury-glow liquid-button">
-                <Heart className="w-20 h-20 text-white animate-breathing" />
+            <div className="mb-16 logo-integrated">
+              <div className="logo-container-hero relative">
+                <div className="logo-glow-ring"></div>
+                <img 
+                  src="/logo.jpeg" 
+                  alt="Wasilah Logo" 
+                  className="relative z-10"
+                />
               </div>
-              <h2 className="text-5xl font-arabic text-cream-elegant mb-4 animate-text-reveal">وسیلہ</h2>
-              <h3 className="text-3xl font-luxury-heading text-vibrant-orange-light animate-text-reveal" style={{animationDelay: '0.3s'}}>Waseela</h3>
+              <h2 className="text-5xl font-arabic text-cream-elegant mb-4 mt-8 animate-text-reveal">وسیلہ</h2>
+              <h3 className="text-3xl font-luxury-heading text-vibrant-orange-light animate-text-reveal" style={{animationDelay: '0.3s'}}>Wasilah</h3>
+              <div className="mt-4 text-cream-elegant/80 text-lg font-elegant-body animate-text-reveal" style={{animationDelay: '0.5s'}}>
+                Connecting Hearts • Building Communities
+              </div>
             </div>
 
             <h1 className="text-6xl md:text-8xl font-luxury-display text-cream-elegant mb-8 leading-tight animate-text-reveal" style={{animationDelay: '0.6s'}}>
@@ -184,31 +192,31 @@ const Home = () => {
       </section>
 
       {/* Impact Highlights - Enhanced */}
-      <section id="impact-stats" className="py-24 bg-cream-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-cream-elegant/50 to-cream-white"></div>
-        <div className="particle-container absolute inset-0"></div>
+      <section id="impact-stats" className="section-story-impact py-24 relative overflow-hidden">
+        <div className="overlay-pattern"></div>
+        <div className="blend-overlay-vibrant"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-20 scroll-reveal">
-            <h2 className="text-5xl md:text-6xl font-modern-display text-logo-navy mb-8">
+            <h2 className="text-5xl md:text-6xl font-modern-display text-cream-elegant mb-8">
               Our Impact in Numbers
             </h2>
-            <p className="text-2xl text-text-medium font-elegant-body max-w-4xl mx-auto">
+            <p className="text-2xl text-cream-elegant/90 font-elegant-body max-w-4xl mx-auto">
               See the tangible difference we're making in communities across the region
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 stagger-animation">
             {impactStats.map((stat, index) => (
-              <div key={index} className="text-center floating-card luxury-card p-10 group magnetic-element">
+              <div key={index} className="text-center floating-card luxury-card p-10 group magnetic-element bg-white/10 backdrop-blur-lg border-2 border-white/20">
                 <div className="service-icon-luxury w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:animate-pulse-glow">
                   <stat.icon className="w-10 h-10 text-white group-hover:animate-float-gentle" />
                 </div>
-                <h3 className="text-5xl font-luxury-display impact-counter mb-4 animate-counter text-logo-navy group-hover:text-gradient-animated">
+                <h3 className="text-5xl font-luxury-display impact-counter mb-4 animate-counter text-cream-elegant group-hover:text-vibrant-orange-light transition-colors">
                   {stat.key === 'lives' ? `${Math.floor(counters[stat.key] / 1000)}K+` : `${counters[stat.key]}+`}
                 </h3>
-                <p className="text-text-medium font-luxury-medium text-lg group-hover:text-logo-navy transition-colors">{stat.label}</p>
-                <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
+                <p className="text-cream-elegant/90 font-luxury-medium text-lg group-hover:text-cream-elegant transition-colors">{stat.label}</p>
+                <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
               </div>
             ))}
           </div>
@@ -216,8 +224,8 @@ const Home = () => {
       </section>
 
       {/* Who We Are Section - Enhanced */}
-      <section className="py-24 bg-cream-elegant relative overflow-hidden">
-        <div className="absolute inset-0 morphing-background opacity-10"></div>
+      <section className="section-story-community py-24 relative overflow-hidden">
+        <div className="overlay-pattern"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="relative scroll-reveal">
@@ -266,10 +274,8 @@ const Home = () => {
 
       {/* Programs & Services - Enhanced */}
       <section className="py-24 bg-cream-white relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-vibrant-orange/5 to-transparent"></div>
-          <div className="particle-container absolute inset-0 opacity-30"></div>
-        </div>
+        <div className="blend-overlay-soft"></div>
+        <div className="particle-container absolute inset-0 opacity-30"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-20 scroll-reveal">
             <h2 className="text-5xl md:text-6xl font-modern-display text-black mb-8">
@@ -300,26 +306,26 @@ const Home = () => {
       </section>
 
       {/* Testimonials Slider - Enhanced */}
-      <section className="py-24 bg-cream-elegant relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent"></div>
+      <section className="section-story-volunteers py-24 relative overflow-hidden">
+        <div className="overlay-pattern"></div>
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/10 rounded-full animate-float-gentle"></div>
-          <div className="absolute bottom-20 right-20 w-24 h-24 bg-logo-teal/10 rounded-full animate-float-gentle" style={{animationDelay: '3s'}}></div>
+          <div className="absolute top-20 left-20 w-32 h-32 bg-white/10 rounded-full animate-float-gentle backdrop-blur-sm"></div>
+          <div className="absolute bottom-20 right-20 w-24 h-24 bg-white/10 rounded-full animate-float-gentle backdrop-blur-sm" style={{animationDelay: '3s'}}></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-20 scroll-reveal">
-            <h2 className="text-5xl md:text-6xl font-modern-display mb-8 text-black">
+            <h2 className="text-5xl md:text-6xl font-modern-display mb-8 text-cream-elegant">
               What Our Community Says
             </h2>
-            <p className="text-2xl font-elegant-body max-w-4xl mx-auto text-black">
+            <p className="text-2xl font-elegant-body max-w-4xl mx-auto text-cream-elegant/90">
               Hear from the volunteers and community members who make our mission possible
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 stagger-animation">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="testimonial-card p-10 floating-card magnetic-element group">
+              <div key={index} className="testimonial-card bg-white/95 backdrop-blur-lg p-10 floating-card magnetic-element group">
                 <div className="flex items-center mb-8">
                   <div className="relative group-hover:animate-pulse-glow">
                     <img

@@ -38,20 +38,21 @@ const Header = () => {
     }`}>
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-24">
-          {/* Logo with Urdu and English */}
-          <Link to="/" className="flex items-center space-x-6 group">
-            <div className="transform transition-transform duration-500 group-hover:scale-110">
+          {/* Logo with Urdu and English - Enhanced Integration */}
+          <Link to="/" className="logo-badge group">
+            <div className="relative transform transition-transform duration-500 group-hover:scale-110">
               <img
                 src="/logo.jpeg"
                 alt="Wasilah Logo"
-                className="w-16 h-16 object-cover rounded-2xl shadow-luxury-glow"
+                className="w-14 h-14 object-contain rounded-xl filter drop-shadow-lg"
               />
+              <div className="absolute -inset-1 bg-gradient-to-r from-vibrant-orange to-vibrant-orange-light rounded-xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-arabic text-cream-elegant leading-tight">
+              <span className="text-base font-arabic text-cream-elegant leading-tight group-hover:text-vibrant-orange-light transition-colors">
                 وسیلہ
               </span>
-              <span className="text-2xl font-luxury-heading text-cream-elegant group-hover:text-vibrant-orange-light transition-colors duration-300">
+              <span className="text-xl font-luxury-heading text-cream-elegant group-hover:text-vibrant-orange-light transition-colors duration-300">
                 Wasilah
               </span>
             </div>

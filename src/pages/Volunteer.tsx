@@ -106,7 +106,7 @@ const Volunteer = () => {
   return (
     <div className="py-12">
       {/* Header - Enhanced */}
-      <section className="hero-luxury-bg text-cream-soft py-24 relative overflow-hidden">
+      <section className="hero-luxury-bg hero-volunteer text-cream-soft py-24 relative overflow-hidden">
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>

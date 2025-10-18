@@ -289,7 +289,7 @@ Or create the index in Firebase Console.
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section - Enhanced */}
-      <div className="hero-luxury-bg text-cream-elegant py-20 relative overflow-hidden">
+      <div className="hero-luxury-bg hero-events text-cream-elegant py-20 relative overflow-hidden">
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
