@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, Clock, MapPin, Users, ChevronRight, Filter, Search, Heart, BookOpen, Wrench, Leaf, Plus } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, ChevronRight, Filter, Search, Heart, BookOpen, Wrench, Leaf, Plus, Star, Award } from 'lucide-react';
 import { db } from '../config/firebase';
 import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
 import { EventSubmission } from '../types/submissions';
+import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useMagneticEffect } from '../hooks/useMagneticEffect';
 
 const Events = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -286,19 +288,31 @@ Or create the index in Firebase Console.
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
+      {/* Hero Section - Enhanced */}
       <div className="hero-luxury-bg text-cream-elegant py-20 relative overflow-hidden">
-        <div className="floating-3d-luxury"></div>
-        <div className="floating-3d-luxury"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="luxury-particle"></div>
+        <div className="luxury-particle"></div>
         <div className="luxury-particle"></div>
         
+        {/* Animated Background Shapes */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/20 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/20 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h1 className="text-6xl md:text-7xl font-luxury-display mb-8 animate-cinematic-fade">
-            Community Events
-          </h1>
-          <p className="text-2xl font-luxury-body max-w-4xl mx-auto">
-            Join us in making a difference through meaningful community gatherings and activities
-          </p>
+          <div className="animate-cinematic-fade">
+            <h1 className="text-6xl md:text-7xl font-modern-display mb-8 animate-text-reveal">
+              Community Events
+            </h1>
+            <p className="text-2xl font-elegant-body max-w-4xl mx-auto animate-text-reveal" style={{animationDelay: '0.3s'}}>
+              Join us in making a difference through meaningful community gatherings and activities
+            </p>
+          </div>
         </div>
       </div>
 

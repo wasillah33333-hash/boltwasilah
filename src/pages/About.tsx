@@ -1,5 +1,7 @@
 import React from 'react';
-import { Users, Target, Heart, Award, CheckCircle, Globe, Lightbulb, Shield, Handshake } from 'lucide-react';
+import { Users, Target, Heart, Award, CheckCircle, Globe, Lightbulb, Shield, Handshake, Star, Quote } from 'lucide-react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useMagneticEffect } from '../hooks/useMagneticEffect';
 
 const About = () => {
   const values = [
@@ -54,53 +56,65 @@ const About = () => {
 
   return (
     <div className="py-12">
-      {/* Header */}
+      {/* Header - Enhanced */}
       <section className="hero-luxury-bg text-cream-elegant py-24 relative overflow-hidden">
-        <div className="floating-3d-luxury"></div>
-        <div className="floating-3d-luxury"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="luxury-particle"></div>
         <div className="luxury-particle"></div>
         <div className="luxury-particle"></div>
         
+        {/* Animated Background Shapes */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/20 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/20 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h1 className="text-6xl md:text-7xl font-luxury-display mb-8 animate-cinematic-fade">About Wasilah</h1>
-          <p className="text-2xl font-luxury-body max-w-4xl mx-auto leading-relaxed">
-            Discover our story, mission, and the passionate team working to empower communities 
-            and build brighter futures together.
-          </p>
+          <div className="animate-cinematic-fade">
+            <h1 className="text-6xl md:text-7xl font-modern-display mb-8 animate-text-reveal">About Wasilah</h1>
+            <p className="text-2xl font-elegant-body max-w-4xl mx-auto leading-relaxed animate-text-reveal" style={{animationDelay: '0.3s'}}>
+              Discover our story, mission, and the passionate team working to empower communities 
+              and build brighter futures together.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <section className="py-24 bg-cream-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Mission & Vision - Enhanced */}
+      <section className="py-24 bg-cream-white relative overflow-hidden">
+        <div className="particle-container absolute inset-0 opacity-30"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-            <div className="text-center lg:text-left animate-slide-up-luxury">
-              <div className="service-icon-luxury w-24 h-24 flex items-center justify-center mb-10 mx-auto lg:mx-0">
-                <Target className="w-12 h-12 text-white" />
+            <div className="text-center lg:text-left scroll-reveal">
+              <div className="service-icon-luxury w-24 h-24 flex items-center justify-center mb-10 mx-auto lg:mx-0 magnetic-element group">
+                <Target className="w-12 h-12 text-white group-hover:animate-pulse-glow" />
               </div>
-              <h2 className="text-5xl font-luxury-display text-black mb-8">Our Mission</h2>
-              <p className="text-xl text-black font-luxury-body leading-relaxed mb-8">
+              <h2 className="text-5xl font-modern-display text-black mb-8 group-hover:text-gradient-animated transition-all duration-500">Our Mission</h2>
+              <p className="text-xl text-black font-elegant-body leading-relaxed mb-8">
                 To serve as a bridge connecting individuals with meaningful opportunities to 
                 make a positive impact in their communities through volunteer work, charitable 
                 projects, and social initiatives.
               </p>
-              <p className="text-xl text-black font-luxury-body leading-relaxed">
+              <p className="text-xl text-black font-elegant-body leading-relaxed">
                 We believe that every person has unique talents and resources that, when 
                 channeled effectively, can create transformative change in the world around them.
               </p>
             </div>
             
-            <div className="text-center lg:text-left animate-slide-up-luxury">
-              <div className="service-icon-luxury w-24 h-24 flex items-center justify-center mb-10 mx-auto lg:mx-0">
-                <Lightbulb className="w-12 h-12 text-white" />
+            <div className="text-center lg:text-left scroll-reveal">
+              <div className="service-icon-luxury w-24 h-24 flex items-center justify-center mb-10 mx-auto lg:mx-0 magnetic-element group">
+                <Lightbulb className="w-12 h-12 text-white group-hover:animate-pulse-glow" />
               </div>
-              <h2 className="text-5xl font-luxury-display text-black mb-8">Our Vision</h2>
-              <p className="text-xl text-black font-luxury-body leading-relaxed mb-8">
+              <h2 className="text-5xl font-modern-display text-black mb-8 group-hover:text-gradient-animated transition-all duration-500">Our Vision</h2>
+              <p className="text-xl text-black font-elegant-body leading-relaxed mb-8">
                 To create a world where every individual has the opportunity to contribute 
                 to the betterment of society, fostering a culture of empathy, collaboration, 
                 and sustainable positive change.
               </p>
-              <p className="text-xl text-black font-luxury-body leading-relaxed">
+              <p className="text-xl text-black font-elegant-body leading-relaxed">
                 We envision thriving communities where people support one another, where 
                 resources are shared equitably, and where collective action leads to 
                 lasting solutions for social challenges.
@@ -110,26 +124,28 @@ const About = () => {
         </div>
       </section>
 
-      {/* Our Values */}
-      <section className="py-24 bg-cream-soft">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-luxury-display text-black mb-8">
+      {/* Our Values - Enhanced */}
+      <section className="py-24 bg-cream-elegant relative overflow-hidden">
+        <div className="absolute inset-0 morphing-background opacity-10"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-20 scroll-reveal">
+            <h2 className="text-5xl md:text-6xl font-modern-display text-black mb-8">
               Our Core Values
             </h2>
-            <p className="text-2xl text-black font-luxury-body max-w-4xl mx-auto">
+            <p className="text-2xl text-black font-elegant-body max-w-4xl mx-auto">
               The principles that guide every decision we make and every action we take
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 stagger-animation">
             {values.map((value, index) => (
-              <div key={index} className="luxury-card bg-cream-white p-10 text-center luxury-hover-scale">
-                <div className="service-icon-luxury w-20 h-20 flex items-center justify-center mx-auto mb-8">
-                  <value.icon className="w-10 h-10 text-white" />
+              <div key={index} className="luxury-card bg-cream-white p-10 text-center floating-card magnetic-element group">
+                <div className="service-icon-luxury w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:animate-pulse-glow">
+                  <value.icon className="w-10 h-10 text-white group-hover:animate-float-gentle" />
                 </div>
-                <h3 className="text-2xl font-luxury-heading text-black mb-6">{value.title}</h3>
-                <p className="text-black font-luxury-body text-lg leading-relaxed">{value.description}</p>
+                <h3 className="text-2xl font-luxury-heading text-black mb-6 group-hover:text-gradient-animated transition-all duration-500">{value.title}</h3>
+                <p className="text-black font-elegant-body text-lg leading-relaxed group-hover:text-gray-800 transition-colors duration-300">{value.description}</p>
+                <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
               </div>
             ))}
           </div>
