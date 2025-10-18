@@ -288,8 +288,23 @@ Or create the index in Firebase Console.
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section - Enhanced */}
-      <div className="hero-luxury-bg hero-events text-cream-elegant py-20 relative overflow-hidden">
+      {/* Hero Section with Video Background */}
+      <div className="text-cream-elegant py-24 relative overflow-hidden min-h-[60vh] flex items-center">
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://videos.pexels.com/video-files/3184292/3184292-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Video Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-logo-navy/90 via-vibrant-orange/80 to-vibrant-orange-light/85"></div>
+        
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>

@@ -55,9 +55,24 @@ const About = () => {
   ];
 
   return (
-    <div className="py-12">
-      {/* Header - Enhanced */}
-      <section className="hero-luxury-bg hero-about text-cream-elegant py-24 relative overflow-hidden">
+    <div>
+      {/* Header with Video Background */}
+      <section className="text-cream-elegant py-32 relative overflow-hidden min-h-[70vh] flex items-center">
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://videos.pexels.com/video-files/6647119/6647119-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/3196036/3196036-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Video Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-logo-navy/88 via-vibrant-orange/75 to-logo-navy/90"></div>
+        
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
@@ -83,8 +98,17 @@ const About = () => {
         </div>
       </section>
 
-      {/* Mission & Vision - Enhanced */}
-      <section className="py-24 bg-cream-white relative overflow-hidden">
+      {/* Mission & Vision - Enhanced with Background */}
+      <section className="py-24 relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.pexels.com/photos/6646915/pexels-photo-6646915.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+            alt="Our Mission"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-white/96 via-cream-white/95 to-cream-elegant/94"></div>
+        </div>
         <div className="particle-container absolute inset-0 opacity-30"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
@@ -124,8 +148,17 @@ const About = () => {
         </div>
       </section>
 
-      {/* Our Values - Enhanced */}
-      <section className="py-24 bg-cream-elegant relative overflow-hidden">
+      {/* Our Values - Enhanced with Background */}
+      <section className="py-24 relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+            alt="Our Values"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-cream-elegant/96 via-cream-white/94 to-white/95"></div>
+        </div>
         <div className="absolute inset-0 morphing-background opacity-10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-20 scroll-reveal">

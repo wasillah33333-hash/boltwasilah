@@ -117,8 +117,23 @@ const Home = () => {
 
   return (
     <div>
-      {/* Hero Section - Enhanced Emotional Design */}
-      <section className="hero-luxury-bg hero-home min-h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Hero Section with Video Background */}
+      <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/5877723/5877723-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Video Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-logo-navy/90 via-logo-navy/85 to-vibrant-orange/80"></div>
+        
         {/* Enhanced 3D Floating Elements */}
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
@@ -272,8 +287,17 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Programs & Services - Enhanced */}
-      <section className="py-24 bg-cream-white relative overflow-hidden">
+      {/* Programs & Services - Enhanced with Background */}
+      <section className="py-24 relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+            alt="Community Programs"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-cream-white/98 to-cream-elegant/95"></div>
+        </div>
         <div className="blend-overlay-soft"></div>
         <div className="particle-container absolute inset-0 opacity-30"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
