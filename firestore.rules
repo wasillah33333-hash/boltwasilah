@@ -71,6 +71,28 @@ service cloud.firestore {
     match /content/{contentId} { allow read: if true; allow write: if isAdmin(); }
     match /page_content/{pageId} { allow read: if true; allow write: if isAdmin(); }
 
+    // Chat system rules
+    match /users/{userId}/chats/{chatId} {
+      allow read, write: if isOwnerOrAdmin(userId);
+    }
+    
+    match /users/{userId}/chats/{chatId}/messages/{messageId} {
+      allow read, write: if isOwnerOrAdmin(userId);
+    }
+    
+    match /users/{userId}/chats/{chatId}/audit/{auditId} {
+      allow read, write: if isOwnerOrAdmin(userId);
+    }
+    
+    match /kb/faqs/{faqId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    match /chats_audit/{auditId} {
+      allow read, write: if isAdmin();
+    }
+
     match /{document=**} { allow read, write: if false; }
   }
 }

@@ -1,0 +1,92 @@
+[
+  {
+    "question": "What is Wasilah and what do you do?",
+    "answer": "Wasilah is a community service organization dedicated to creating positive social impact through various initiatives including education, healthcare, environmental conservation, and community development. We work with volunteers and partners to address pressing social issues and build stronger communities.",
+    "keywords": ["what", "wasilah", "organization", "mission", "purpose", "do", "community", "service"],
+    "tags": ["general", "about", "mission"]
+  },
+  {
+    "question": "How can I volunteer with Wasilah?",
+    "answer": "We welcome volunteers! You can apply through our 'Join Us' page on the website, or contact us directly. We have opportunities in education, healthcare, environmental projects, and community development. No prior experience is required - just a passion for making a difference!",
+    "keywords": ["volunteer", "join", "help", "participate", "get involved", "opportunities", "apply"],
+    "tags": ["volunteering", "participation", "getting-started"]
+  },
+  {
+    "question": "What types of events does Wasilah organize?",
+    "answer": "We organize various community events including health fairs, educational workshops, environmental cleanups, fundraising events, awareness campaigns, and community gatherings. Check our Events page for upcoming activities and details on how to participate.",
+    "keywords": ["events", "programs", "activities", "workshops", "health", "education", "environmental", "fundraising"],
+    "tags": ["events", "programs", "activities"]
+  },
+  {
+    "question": "How can I donate to Wasilah?",
+    "answer": "Thank you for wanting to support our mission! You can donate through our website's donation section, or contact us directly for other donation methods. Your contributions help us fund education programs, healthcare initiatives, environmental projects, and community development activities.",
+    "keywords": ["donate", "support", "contribute", "funding", "money", "financial", "help", "fund"],
+    "tags": ["donations", "funding", "support"]
+  },
+  {
+    "question": "What are Wasilah's main projects?",
+    "answer": "Our main projects focus on four key areas: 1) Education - providing learning opportunities and resources, 2) Healthcare - organizing health camps and medical assistance, 3) Environment - conservation and sustainability initiatives, and 4) Community Development - building stronger, more connected communities.",
+    "keywords": ["projects", "initiatives", "education", "healthcare", "environment", "community", "development", "areas"],
+    "tags": ["projects", "initiatives", "focus-areas"]
+  },
+  {
+    "question": "How can I contact Wasilah?",
+    "answer": "You can reach us through multiple channels: Visit our Contact page for office locations and phone numbers, email us directly, or use this chat for immediate assistance. Our team typically responds within 24 hours. We have offices in Karachi, Lahore, and Islamabad.",
+    "keywords": ["contact", "reach", "phone", "email", "address", "office", "location", "get in touch"],
+    "tags": ["contact", "communication", "support"]
+  },
+  {
+    "question": "Where are Wasilah's offices located?",
+    "answer": "We have offices in three major cities: Karachi, Lahore, and Islamabad. Each office serves its local community and surrounding areas. You can find detailed addresses, contact information, and office hours on our Contact page.",
+    "keywords": ["location", "office", "address", "karachi", "lahore", "islamabad", "where", "cities"],
+    "tags": ["location", "offices", "cities"]
+  },
+  {
+    "question": "How can I submit a project or event idea?",
+    "answer": "We love hearing new ideas! You can submit project or event ideas through our website's submission form, or contact us directly. Our team reviews all submissions and will get back to you within 2-3 business days. We're always looking for innovative ways to serve the community.",
+    "keywords": ["submit", "idea", "project", "event", "proposal", "suggestion", "new", "innovation"],
+    "tags": ["submissions", "ideas", "innovation"]
+  },
+  {
+    "question": "What is Wasilah's impact on the community?",
+    "answer": "Since our founding, Wasilah has impacted thousands of lives through our programs. We've provided education to underprivileged children, organized health camps serving thousands, conducted environmental cleanups, and built stronger community connections. Our impact is measured not just in numbers, but in the positive change we see in communities.",
+    "keywords": ["impact", "results", "achievements", "success", "lives", "changed", "community", "benefit"],
+    "tags": ["impact", "results", "achievements"]
+  },
+  {
+    "question": "How can I become a partner organization?",
+    "answer": "We welcome partnerships with organizations that share our mission! Please contact us through our partnership inquiry form or email us directly. We work with NGOs, educational institutions, healthcare providers, and other community organizations to maximize our impact.",
+    "keywords": ["partner", "partnership", "collaborate", "organization", "ngo", "work together", "alliance"],
+    "tags": ["partnerships", "collaboration", "organizations"]
+  },
+  {
+    "question": "What volunteer opportunities are available?",
+    "answer": "We offer diverse volunteer opportunities including: Teaching and tutoring, Healthcare assistance, Environmental conservation, Event organization, Fundraising, Administrative support, and Community outreach. Each role is designed to match your skills and interests while making a meaningful impact.",
+    "keywords": ["volunteer", "opportunities", "roles", "teaching", "healthcare", "environmental", "fundraising", "admin"],
+    "tags": ["volunteering", "opportunities", "roles"]
+  },
+  {
+    "question": "How does Wasilah ensure transparency?",
+    "answer": "Transparency is core to our values. We publish annual reports, maintain detailed financial records, provide regular updates on project progress, and ensure all donations are used as intended. We're committed to accountability and regularly share our impact with supporters and the community.",
+    "keywords": ["transparency", "accountability", "financial", "reports", "records", "donations", "trust"],
+    "tags": ["transparency", "accountability", "governance"]
+  },
+  {
+    "question": "Can I visit Wasilah's projects?",
+    "answer": "Yes! We encourage supporters to visit our projects and see the impact firsthand. Please contact us in advance to arrange a visit. We can organize guided tours of our education centers, health camps, environmental projects, and community development initiatives.",
+    "keywords": ["visit", "tour", "see", "projects", "in person", "guided", "arrange"],
+    "tags": ["visits", "tours", "engagement"]
+  },
+  {
+    "question": "How can I stay updated on Wasilah's activities?",
+    "answer": "Stay connected with us through our website, social media channels, email newsletter, and regular updates. We share project progress, upcoming events, success stories, and volunteer opportunities. Follow us on Facebook, Instagram, and LinkedIn for the latest news.",
+    "keywords": ["update", "news", "newsletter", "social media", "facebook", "instagram", "linkedin", "follow"],
+    "tags": ["updates", "communication", "social-media"]
+  },
+  {
+    "question": "What makes Wasilah different from other organizations?",
+    "answer": "What sets Wasilah apart is our community-centered approach, local expertise, and commitment to sustainable impact. We work closely with local communities to understand their needs, involve them in solution design, and ensure our programs create lasting positive change. Our volunteers and staff are deeply connected to the communities we serve.",
+    "keywords": ["different", "unique", "special", "community", "local", "sustainable", "lasting", "impact"],
+    "tags": ["differentiation", "values", "approach"]
+  }
+]
