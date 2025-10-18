@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Clock, Facebook, Twitter, Instagram, Send, Heart, Star } from 'lucide-react';
 import { sendEmail, formatContactMessageEmail } from '../utils/emailService';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { useActivityLogger } from '../hooks/useActivityLogger';
 
 const Contact = () => {
-  const { logCustomActivity } = useActivityLogger();
+  const { currentTheme } = useTheme();
+  const { logPageVisit, logCustomActivity } = useActivityLogger();
+  
+  // Log page visit
+  useEffect(() => {
+    logPageVisit('Contact');
+  }, []);
   
   // Initialize scroll reveal effects
   useEffect(() => {
@@ -29,6 +36,21 @@ const Contact = () => {
     return () => {
       elements.forEach((el) => observer.unobserve(el));
     };
+  }, []);
+
+  // Initialize parallax effect for hero video
+  useEffect(() => {
+    const video = document.querySelector('.hero-video') as HTMLElement;
+    if (!video) return;
+
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * 0.5;
+      video.style.transform = `translateY(${rate}px)`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Initialize magnetic effects
@@ -207,7 +229,7 @@ const Contact = () => {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="hero-video absolute inset-0 w-full h-full object-cover"
         >
           <source src="https://videos.pexels.com/video-files/3184465/3184465-uhd_2560_1440_25fps.mp4" type="video/mp4" />
           <source src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4" type="video/mp4" />

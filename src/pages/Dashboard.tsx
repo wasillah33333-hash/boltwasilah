@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import { User, Calendar, Target, Heart, TrendingUp, Clock, MapPin, Users, Award, Settings, Bell, BookOpen, Activity, Star, ChevronRight, Filter, Search, Plus, FileText, Eye, CreditCard as Edit3, CheckCircle, Sparkles, Zap } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useActivityLogger } from '../hooks/useActivityLogger';
 import { collection, query, where, getDocs, orderBy, limit, onSnapshot } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { ProjectSubmission, EventSubmission, SubmissionStatus } from '../types/submissions';
 import DraftsList from '../components/DraftsList';
-import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useMagneticEffect } from '../hooks/useMagneticEffect';
 
 interface DashboardActivity {
   id: string;
@@ -32,6 +31,7 @@ type SubmissionWithType = (ProjectSubmission | EventSubmission) & {
 const Dashboard = () => {
   const { userData, currentUser } = useAuth();
   const { currentTheme } = useTheme();
+  const { logPageVisit } = useActivityLogger();
   const [activities, setActivities] = useState<DashboardActivity[]>([]);
   const [stats, setStats] = useState<UserStats>({
     projectsJoined: 0,
@@ -67,6 +67,21 @@ const Dashboard = () => {
       elements.forEach((el) => observer.unobserve(el));
     };
   }, [loading]); // Re-run when loading changes to catch new elements
+
+  // Initialize parallax effect for hero video
+  useEffect(() => {
+    const video = document.querySelector('.hero-video') as HTMLElement;
+    if (!video) return;
+
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * 0.5;
+      video.style.transform = `translateY(${rate}px)`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loading]);
 
   // Initialize magnetic effects for all magnetic-element elements
   useEffect(() => {
@@ -335,7 +350,7 @@ const Dashboard = () => {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="hero-video absolute inset-0 w-full h-full object-cover"
         >
           <source src="https://videos.pexels.com/video-files/6646918/6646918-uhd_2560_1440_25fps.mp4" type="video/mp4" />
           <source src="https://videos.pexels.com/video-files/5877723/5877723-uhd_2560_1440_25fps.mp4" type="video/mp4" />

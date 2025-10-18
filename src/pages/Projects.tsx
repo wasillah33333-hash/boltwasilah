@@ -4,13 +4,22 @@ import { BookOpen, Heart, Droplets, Smartphone, Utensils, Wrench, ChevronRight, 
 import { db } from '../config/firebase';
 import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
 import { ProjectSubmission } from '../types/submissions';
+import { useTheme } from '../contexts/ThemeContext';
+import { useActivityLogger } from '../hooks/useActivityLogger';
 
 const Projects = () => {
+  const { currentTheme } = useTheme();
+  const { logPageVisit } = useActivityLogger();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [approvedProjects, setApprovedProjects] = useState<ProjectSubmission[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Log page visit
+  useEffect(() => {
+    logPageVisit('Projects');
+  }, []);
 
   // Initialize scroll reveal effects
   useEffect(() => {
@@ -34,6 +43,21 @@ const Projects = () => {
     return () => {
       elements.forEach((el) => observer.unobserve(el));
     };
+  }, []);
+
+  // Initialize parallax effect for hero video
+  useEffect(() => {
+    const video = document.querySelector('.hero-video') as HTMLElement;
+    if (!video) return;
+
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * 0.5;
+      video.style.transform = `translateY(${rate}px)`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Initialize magnetic effects
@@ -337,7 +361,7 @@ Or create the index in Firebase Console.
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="hero-video absolute inset-0 w-full h-full object-cover"
         >
           <source src="https://videos.pexels.com/video-files/6647034/6647034-uhd_2560_1440_25fps.mp4" type="video/mp4" />
           <source src="https://videos.pexels.com/video-files/7578555/7578555-uhd_2560_1440_25fps.mp4" type="video/mp4" />

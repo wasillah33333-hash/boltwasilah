@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Heart, Users, Star, CheckCircle, ArrowRight, Award, Globe, Lightbulb } from 'lucide-react';
 import { sendEmail, formatVolunteerApplicationEmail } from '../utils/emailService';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { useActivityLogger } from '../hooks/useActivityLogger';
 
 const Volunteer = () => {
-  const { logCustomActivity } = useActivityLogger();
+  const { currentTheme } = useTheme();
+  const { logPageVisit, logCustomActivity } = useActivityLogger();
+  
+  // Log page visit
+  useEffect(() => {
+    logPageVisit('Volunteer');
+  }, []);
   
   // Initialize scroll reveal effects
   useEffect(() => {
@@ -29,6 +36,21 @@ const Volunteer = () => {
     return () => {
       elements.forEach((el) => observer.unobserve(el));
     };
+  }, []);
+
+  // Initialize parallax effect for hero video
+  useEffect(() => {
+    const video = document.querySelector('.hero-video') as HTMLElement;
+    if (!video) return;
+
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * 0.5;
+      video.style.transform = `translateY(${rate}px)`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Initialize magnetic effects
@@ -184,7 +206,7 @@ const Volunteer = () => {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="hero-video absolute inset-0 w-full h-full object-cover"
         >
           <source src="https://videos.pexels.com/video-files/6647112/6647112-uhd_2560_1440_25fps.mp4" type="video/mp4" />
           <source src="https://videos.pexels.com/video-files/5877723/5877723-uhd_2560_1440_25fps.mp4" type="video/mp4" />

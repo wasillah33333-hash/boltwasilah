@@ -1,7 +1,17 @@
 import React, { useEffect } from 'react';
 import { Users, Target, Heart, Award, CheckCircle, Globe, Lightbulb, Shield, Handshake, Star, Quote } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
+import { useActivityLogger } from '../hooks/useActivityLogger';
 
 const About = () => {
+  const { currentTheme } = useTheme();
+  const { logPageVisit } = useActivityLogger();
+
+  // Log page visit
+  useEffect(() => {
+    logPageVisit('About');
+  }, []);
+
   // Initialize scroll reveal effects
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -24,6 +34,21 @@ const About = () => {
     return () => {
       elements.forEach((el) => observer.unobserve(el));
     };
+  }, []);
+
+  // Initialize parallax effect for hero video
+  useEffect(() => {
+    const video = document.querySelector('.hero-video') as HTMLElement;
+    if (!video) return;
+
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * 0.5;
+      video.style.transform = `translateY(${rate}px)`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Initialize magnetic effects
@@ -134,7 +159,7 @@ const About = () => {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="hero-video absolute inset-0 w-full h-full object-cover"
         >
           <source src="https://videos.pexels.com/video-files/6647119/6647119-uhd_2560_1440_25fps.mp4" type="video/mp4" />
           <source src="https://videos.pexels.com/video-files/3196036/3196036-uhd_2560_1440_25fps.mp4" type="video/mp4" />

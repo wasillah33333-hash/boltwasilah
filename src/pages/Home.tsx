@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Users, Target, Award, Heart, CheckCircle, Star, Quote, Globe, Lightbulb, Shield, Handshake } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
+import { useActivityLogger } from '../hooks/useActivityLogger';
 
 const Home = () => {
+  const { currentTheme } = useTheme();
+  const { logPageVisit } = useActivityLogger();
   const [counters, setCounters] = useState({
     volunteers: 0,
     projects: 0,
     communities: 0,
     lives: 0
   });
+
+  // Log page visit
+  useEffect(() => {
+    logPageVisit('Home');
+  }, []);
 
   // Initialize scroll reveal effects
   useEffect(() => {
@@ -197,7 +206,7 @@ const Home = () => {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="hero-video absolute inset-0 w-full h-full object-cover"
         >
           <source src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4" type="video/mp4" />
           <source src="https://videos.pexels.com/video-files/5877723/5877723-uhd_2560_1440_25fps.mp4" type="video/mp4" />
@@ -489,6 +498,19 @@ const Home = () => {
             <Link
               to="/volunteer"
               className="liquid-button text-xl px-16 py-6 inline-flex items-center group animate-text-reveal shadow-luxury-glow-lg hover:shadow-luxury-glow-lg"
+              style={{animationDelay: '0.6s'}}
+            >
+              Become a Volunteer
+              <ArrowRight className="ml-4 w-7 h-7 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Home;          className="liquid-button text-xl px-16 py-6 inline-flex items-center group animate-text-reveal shadow-luxury-glow-lg hover:shadow-luxury-glow-lg"
               style={{animationDelay: '0.6s'}}
             >
               Become a Volunteer
