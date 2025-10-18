@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import { User, Calendar, Target, Heart, TrendingUp, Clock, MapPin, Users, Award, Settings, Bell, BookOpen, Activity, Star, ChevronRight, Filter, Search, Plus, FileText, Eye, CreditCard as Edit3, CheckCircle, Sparkles, Zap } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useActivityLogger } from '../hooks/useActivityLogger';
 import { collection, query, where, getDocs, orderBy, limit, onSnapshot } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { ProjectSubmission, EventSubmission, SubmissionStatus } from '../types/submissions';
 import DraftsList from '../components/DraftsList';
-import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useMagneticEffect } from '../hooks/useMagneticEffect';
 
 interface DashboardActivity {
   id: string;
@@ -32,6 +31,7 @@ type SubmissionWithType = (ProjectSubmission | EventSubmission) & {
 const Dashboard = () => {
   const { userData, currentUser } = useAuth();
   const { currentTheme } = useTheme();
+  const { logPageVisit } = useActivityLogger();
   const [activities, setActivities] = useState<DashboardActivity[]>([]);
   const [stats, setStats] = useState<UserStats>({
     projectsJoined: 0,
@@ -43,6 +43,93 @@ const Dashboard = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [submissions, setSubmissions] = useState<SubmissionWithType[]>([]);
   const [drafts, setDrafts] = useState<SubmissionWithType[]>([]);
+
+  // Initialize scroll reveal effects for all scroll-reveal elements
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    const elements = document.querySelectorAll('.scroll-reveal');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el));
+    };
+  }, [loading]); // Re-run when loading changes to catch new elements
+
+  // Initialize parallax effect for hero video
+  useEffect(() => {
+    const video = document.querySelector('.hero-video') as HTMLElement;
+    if (!video) return;
+
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * 0.5;
+      video.style.transform = `translateY(${rate}px)`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loading]);
+
+  // Initialize magnetic effects for all magnetic-element elements
+  useEffect(() => {
+    const elements = document.querySelectorAll('.magnetic-element');
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      const element = e.currentTarget as HTMLElement;
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      const distance = Math.sqrt(x * x + y * y);
+      const maxDistance = Math.max(rect.width, rect.height) / 2;
+      
+      if (distance < maxDistance) {
+        const strength = (maxDistance - distance) / maxDistance;
+        const moveX = (x / maxDistance) * strength * 20;
+        const moveY = (y / maxDistance) * strength * 20;
+        
+        element.style.setProperty('--mouse-x', `${moveX}px`);
+        element.style.setProperty('--mouse-y', `${moveY}px`);
+        element.classList.add('animate-magnetic-pull');
+      } else {
+        element.style.setProperty('--mouse-x', '0px');
+        element.style.setProperty('--mouse-y', '0px');
+        element.classList.remove('animate-magnetic-pull');
+      }
+    };
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      const element = e.currentTarget as HTMLElement;
+      element.style.setProperty('--mouse-x', '0px');
+      element.style.setProperty('--mouse-y', '0px');
+      element.classList.remove('animate-magnetic-pull');
+    };
+
+    elements.forEach((element) => {
+      element.addEventListener('mousemove', handleMouseMove as EventListener);
+      element.addEventListener('mouseleave', handleMouseLeave as EventListener);
+    });
+
+    return () => {
+      elements.forEach((element) => {
+        element.removeEventListener('mousemove', handleMouseMove as EventListener);
+        element.removeEventListener('mouseleave', handleMouseLeave as EventListener);
+      });
+    };
+  }, [loading]); // Re-run when loading changes to catch new elements
 
   useEffect(() => {
     if (currentUser && userData) {
@@ -246,7 +333,7 @@ const Dashboard = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-vibrant-orange mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-logo-teal mx-auto mb-4"></div>
           <p className="text-xl font-luxury-heading text-black">Loading your dashboard...</p>
         </div>
       </div>
@@ -254,47 +341,71 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="particle-container"></div>
-        <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/10 rounded-full animate-float-gentle"></div>
-        <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/10 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/5 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
-      </div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Welcome Header - Enhanced */}
-        <div className="mb-8 scroll-reveal">
-          <div className="luxury-card bg-white p-8 relative overflow-hidden">
-            <div 
-              className="absolute inset-0 opacity-10"
-              style={{ background: currentTheme.colors.primary }}
-            ></div>
-            <div className="floating-3d-luxury opacity-20"></div>
-            <div className="relative z-10">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h1 className="text-4xl font-modern-display text-black mb-2 animate-text-reveal">
-                    Welcome back, {userData?.displayName || 'Friend'}! 👋
-                  </h1>
-                  <p className="text-xl text-black/70 font-elegant-body animate-text-reveal" style={{animationDelay: '0.3s'}}>
-                    Ready to make a difference today?
-                  </p>
-                </div>
-                <div className="text-right magnetic-element group">
-                  <div className="text-3xl font-modern-display text-gradient-animated group-hover:animate-pulse-glow" style={{ color: currentTheme.colors.primary }}>
+    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+      {/* Hero Section with Video Background */}
+      <div className="relative h-[60vh] mb-12 overflow-hidden">
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="hero-video absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://videos.pexels.com/video-files/6646918/6646918-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/5877723/5877723-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Video Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-logo-navy/92 via-logo-navy-light/88 to-logo-teal/85"></div>
+        
+        {/* Animated Particles */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="particle-container"></div>
+          <div className="absolute top-20 left-20 w-32 h-32 bg-logo-teal/25 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal-light/25 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-logo-navy-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div className="text-center text-white">
+              <h1 className="text-6xl md:text-7xl font-modern-display mb-6 animate-text-reveal">
+                Welcome back, {userData?.displayName || 'Friend'}! 👋
+              </h1>
+              <p className="text-2xl font-elegant-body mb-8 animate-text-reveal" style={{animationDelay: '0.3s'}}>
+                Ready to make a difference today?
+              </p>
+              <div className="inline-block magnetic-element group">
+                <div className="bg-white/10 backdrop-blur-md border-2 border-white/30 rounded-luxury px-8 py-4 hover:bg-white/20 transition-all duration-300">
+                  <div className="text-5xl font-modern-display text-gradient-animated mb-2 group-hover:animate-pulse-glow">
                     {stats.impactScore}
                   </div>
-                  <div className="text-sm text-black/70 group-hover:text-gray-800 transition-colors">Impact Score</div>
+                  <div className="text-sm uppercase tracking-wider">Your Impact Score</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Stats Cards - Enhanced */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 stagger-animation">
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 -mt-24 mb-12">
+        {/* Stats Cards Section with Background Image */}
+        <div className="relative p-8 rounded-3xl overflow-hidden mb-12">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src="https://images.pexels.com/photos/6646914/pexels-photo-6646914.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+              alt="Community Background"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/90 to-cream-elegant/95"></div>
+          </div>
+          
+          <div className="relative z-10">
+            <h2 className="text-3xl font-modern-display text-black mb-6 text-center">Your Impact Dashboard</h2>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 stagger-animation">
           <div className="luxury-card bg-white p-6 text-center floating-card magnetic-element group">
             <div 
               className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse-glow"
@@ -342,15 +453,26 @@ const Dashboard = () => {
             <div className="text-sm text-black/70 group-hover:text-gray-800 transition-colors">Impact Score</div>
             <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
           </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Quick Actions - Enhanced */}
-            <div className="luxury-card bg-white p-8 scroll-reveal">
-              <h2 className="text-2xl font-modern-display text-black mb-6">Quick Actions</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 stagger-animation">
+            {/* Quick Actions - Enhanced with Background */}
+            <div className="luxury-card bg-white/95 backdrop-blur-sm p-8 scroll-reveal relative overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 opacity-10 z-0">
+                <img 
+                  src="https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                  alt="Community Service"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative z-10">
+                <h2 className="text-2xl font-modern-display text-black mb-6">Quick Actions</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 stagger-animation">
                 {quickActions.map((action, index) => (
                   <Link
                     key={index}
@@ -367,16 +489,26 @@ const Dashboard = () => {
                         </h3>
                         <p className="text-sm text-black/70 group-hover:text-gray-800 transition-colors">{action.description}</p>
                       </div>
-                      <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-vibrant-orange group-hover:translate-x-1 transition-all duration-300" />
+                      <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-logo-teal group-hover:translate-x-1 transition-all duration-300" />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
                   </Link>
                 ))}
+                </div>
               </div>
             </div>
 
-            {/* Recent Activity */}
-            <div className="luxury-card bg-white p-8">
+            {/* Recent Activity with Background */}
+            <div className="luxury-card bg-white/95 backdrop-blur-sm p-8 relative overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 opacity-10 z-0">
+                <img 
+                  src="https://images.pexels.com/photos/6647034/pexels-photo-6647034.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                  alt="Community Activity"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative z-10">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-luxury-heading text-black">Recent Activity</h2>
                 <div className="flex space-x-2">
@@ -384,7 +516,7 @@ const Dashboard = () => {
                     onClick={() => setActiveFilter('all')}
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                       activeFilter === 'all' 
-                        ? 'bg-vibrant-orange text-white' 
+                        ? 'bg-logo-teal text-white' 
                         : 'bg-gray-100 text-black hover:bg-gray-200'
                     }`}
                   >
@@ -394,7 +526,7 @@ const Dashboard = () => {
                     onClick={() => setActiveFilter('applications')}
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                       activeFilter === 'applications' 
-                        ? 'bg-vibrant-orange text-white' 
+                        ? 'bg-logo-teal text-white' 
                         : 'bg-gray-100 text-black hover:bg-gray-200'
                     }`}
                   >
@@ -426,15 +558,25 @@ const Dashboard = () => {
                   </div>
                 )}
               </div>
+              </div>
             </div>
 
-            {/* My Submissions */}
-            <div className="luxury-card bg-white p-8">
+            {/* My Submissions with Background */}
+            <div className="luxury-card bg-white/95 backdrop-blur-sm p-8 relative overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 opacity-10 z-0">
+                <img 
+                  src="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                  alt="Community Gathering"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative z-10">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-luxury-heading text-black">My Submissions</h2>
                 <Link
                   to="/create-submission"
-                  className="text-vibrant-orange hover:text-vibrant-orange-dark text-sm font-medium flex items-center"
+                  className="text-logo-teal hover:text-logo-teal-dark text-sm font-medium flex items-center"
                 >
                   <Plus className="w-4 h-4 mr-1" />
                   New Submission
@@ -454,7 +596,7 @@ const Dashboard = () => {
                     };
 
                     return (
-                      <div key={submission.id} className="p-4 border-2 border-gray-200 rounded-luxury hover:border-vibrant-orange transition-colors">
+                      <div key={submission.id} className="p-4 border-2 border-gray-200 rounded-luxury hover:border-logo-teal transition-colors">
                         <div className="flex items-start justify-between mb-2">
                           <h4 className="font-luxury-heading text-black">{submission.title}</h4>
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(submission.status)}`}>
@@ -494,6 +636,7 @@ const Dashboard = () => {
                   </Link>
                 </div>
               )}
+              </div>
             </div>
 
             {/* My Drafts */}
@@ -502,11 +645,20 @@ const Dashboard = () => {
 
           {/* Sidebar */}
           <div className="space-y-8">
-            {/* Upcoming Events */}
-            <div className="luxury-card bg-white p-6">
+            {/* Upcoming Events with Background */}
+            <div className="luxury-card bg-white/95 backdrop-blur-sm p-6 relative overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 opacity-10 z-0">
+                <img 
+                  src="https://images.pexels.com/photos/6647112/pexels-photo-6647112.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                  alt="Community Events"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-luxury-heading text-black">Upcoming Events</h3>
-                <Link to="/events" className="text-vibrant-orange hover:text-vibrant-orange-dark text-sm font-medium">
+                <Link to="/events" className="text-logo-teal hover:text-logo-teal-dark text-sm font-medium">
                   View All
                 </Link>
               </div>
@@ -532,13 +684,23 @@ const Dashboard = () => {
                   </div>
                 ))}
               </div>
+              </div>
             </div>
 
-            {/* Recommended Projects */}
-            <div className="luxury-card bg-white p-6">
+            {/* Recommended Projects with Background */}
+            <div className="luxury-card bg-white/95 backdrop-blur-sm p-6 relative overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 opacity-10 z-0">
+                <img 
+                  src="https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                  alt="Community Projects"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="relative z-10">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-luxury-heading text-black">Recommended for You</h3>
-                <Link to="/projects" className="text-vibrant-orange hover:text-vibrant-orange-dark text-sm font-medium">
+                <Link to="/projects" className="text-logo-teal hover:text-logo-teal-dark text-sm font-medium">
                   View All
                 </Link>
               </div>
@@ -562,31 +724,43 @@ const Dashboard = () => {
                   </div>
                 ))}
               </div>
+              </div>
             </div>
 
-            {/* Profile Completion */}
-            <div className="luxury-card bg-gradient-to-br from-vibrant-orange/10 to-vibrant-orange-light/10 p-6">
-              <h3 className="text-lg font-luxury-heading text-black mb-4">Complete Your Profile</h3>
+            {/* Profile Completion with Background */}
+            <div className="luxury-card p-6 relative overflow-hidden">
+              {/* Background Image */}
+              <div className="absolute inset-0 z-0">
+                <img 
+                  src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                  alt="Community Connection"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-logo-teal/90 to-logo-teal-light/85"></div>
+              </div>
+              <div className="relative z-10">
+              <h3 className="text-lg font-luxury-heading text-white mb-4">Complete Your Profile</h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-black">Basic Info</span>
-                  <CheckCircle className="w-4 h-4 text-green-500" />
+                  <span className="text-sm text-white">Basic Info</span>
+                  <CheckCircle className="w-4 h-4 text-green-300" />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-black">Interests</span>
-                  <CheckCircle className="w-4 h-4 text-green-500" />
+                  <span className="text-sm text-white">Interests</span>
+                  <CheckCircle className="w-4 h-4 text-green-300" />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-black">Skills</span>
-                  <div className="w-4 h-4 border-2 border-gray-300 rounded"></div>
+                  <span className="text-sm text-white">Skills</span>
+                  <div className="w-4 h-4 border-2 border-white rounded"></div>
                 </div>
               </div>
               <Link 
                 to="/volunteer" 
-                className="block w-full text-center mt-4 px-4 py-2 bg-vibrant-orange text-white rounded-luxury hover:bg-vibrant-orange-dark transition-colors text-sm font-medium"
+                className="block w-full text-center mt-4 px-4 py-2 bg-white text-logo-teal rounded-luxury hover:bg-cream-elegant transition-colors text-sm font-medium shadow-lg"
               >
                 Complete Profile
               </Link>
+              </div>
             </div>
           </div>
         </div>

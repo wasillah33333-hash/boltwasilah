@@ -1,13 +1,106 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Clock, Facebook, Twitter, Instagram, Send, Heart, Star } from 'lucide-react';
 import { sendEmail, formatContactMessageEmail } from '../utils/emailService';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { useActivityLogger } from '../hooks/useActivityLogger';
-import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useMagneticEffect } from '../hooks/useMagneticEffect';
 
 const Contact = () => {
-  const { logCustomActivity } = useActivityLogger();
+  const { currentTheme } = useTheme();
+  const { logPageVisit, logCustomActivity } = useActivityLogger();
+  
+  // Log page visit
+  useEffect(() => {
+    logPageVisit('Contact');
+  }, []);
+  
+  // Initialize scroll reveal effects
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    const elements = document.querySelectorAll('.scroll-reveal');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
+
+  // Initialize parallax effect for hero video
+  useEffect(() => {
+    const video = document.querySelector('.hero-video') as HTMLElement;
+    if (!video) return;
+
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * 0.5;
+      video.style.transform = `translateY(${rate}px)`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Initialize magnetic effects
+  useEffect(() => {
+    const elements = document.querySelectorAll('.magnetic-element');
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      const element = e.currentTarget as HTMLElement;
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      const distance = Math.sqrt(x * x + y * y);
+      const maxDistance = Math.max(rect.width, rect.height) / 2;
+      
+      if (distance < maxDistance) {
+        const strength = (maxDistance - distance) / maxDistance;
+        const moveX = (x / maxDistance) * strength * 20;
+        const moveY = (y / maxDistance) * strength * 20;
+        
+        element.style.setProperty('--mouse-x', `${moveX}px`);
+        element.style.setProperty('--mouse-y', `${moveY}px`);
+        element.classList.add('animate-magnetic-pull');
+      } else {
+        element.style.setProperty('--mouse-x', '0px');
+        element.style.setProperty('--mouse-y', '0px');
+        element.classList.remove('animate-magnetic-pull');
+      }
+    };
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      const element = e.currentTarget as HTMLElement;
+      element.style.setProperty('--mouse-x', '0px');
+      element.style.setProperty('--mouse-y', '0px');
+      element.classList.remove('animate-magnetic-pull');
+    };
+
+    elements.forEach((element) => {
+      element.addEventListener('mousemove', handleMouseMove as EventListener);
+      element.addEventListener('mouseleave', handleMouseLeave as EventListener);
+    });
+
+    return () => {
+      elements.forEach((element) => {
+        element.removeEventListener('mousemove', handleMouseMove as EventListener);
+        element.removeEventListener('mouseleave', handleMouseLeave as EventListener);
+      });
+    };
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -127,9 +220,24 @@ const Contact = () => {
   ];
 
   return (
-    <div className="py-12">
-      {/* Header - Enhanced */}
-      <section className="hero-luxury-bg hero-contact text-cream-soft py-24 relative overflow-hidden">
+    <div>
+      {/* Header with Video Background */}
+      <section className="text-cream-elegant py-32 relative overflow-hidden min-h-[70vh] flex items-center">
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="hero-video absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://videos.pexels.com/video-files/3184465/3184465-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Video Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-logo-teal/92 via-logo-navy/88 to-logo-teal-light/85"></div>
+        
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
@@ -139,9 +247,9 @@ const Contact = () => {
         
         {/* Animated Background Shapes */}
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/20 rounded-full animate-float-gentle"></div>
-          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/20 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
-          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+          <div className="absolute top-20 left-20 w-32 h-32 bg-logo-teal/25 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal-light/25 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-logo-navy-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
@@ -174,9 +282,18 @@ const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Contact Form - Enhanced */}
+            {/* Contact Form - Enhanced with Background */}
             <div className="lg:col-span-2">
-              <div className="luxury-card bg-cream-white p-10 scroll-reveal">
+              <div className="luxury-card bg-white/95 backdrop-blur-sm p-10 scroll-reveal relative overflow-hidden">
+                {/* Background Image */}
+                <div className="absolute inset-0 opacity-8 z-0">
+                  <img 
+                    src="https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+                    alt="Contact Us"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="relative z-10">
                 <h3 className="text-3xl font-modern-display text-black mb-8">Send us a Message</h3>
               
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -252,7 +369,8 @@ const Contact = () => {
                   Send Message
                 </button>
               </form>
-            </div>
+                </div>
+              </div>
 
             {/* Social Media */}
             <div className="mt-10 luxury-card bg-cream-soft p-8">

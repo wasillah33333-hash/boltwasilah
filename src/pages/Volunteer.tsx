@@ -1,13 +1,106 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Heart, Users, Star, CheckCircle, ArrowRight, Award, Globe, Lightbulb } from 'lucide-react';
 import { sendEmail, formatVolunteerApplicationEmail } from '../utils/emailService';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { useActivityLogger } from '../hooks/useActivityLogger';
-import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useMagneticEffect } from '../hooks/useMagneticEffect';
 
 const Volunteer = () => {
-  const { logCustomActivity } = useActivityLogger();
+  const { currentTheme } = useTheme();
+  const { logPageVisit, logCustomActivity } = useActivityLogger();
+  
+  // Log page visit
+  useEffect(() => {
+    logPageVisit('Volunteer');
+  }, []);
+  
+  // Initialize scroll reveal effects
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    const elements = document.querySelectorAll('.scroll-reveal');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
+
+  // Initialize parallax effect for hero video
+  useEffect(() => {
+    const video = document.querySelector('.hero-video') as HTMLElement;
+    if (!video) return;
+
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * 0.5;
+      video.style.transform = `translateY(${rate}px)`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Initialize magnetic effects
+  useEffect(() => {
+    const elements = document.querySelectorAll('.magnetic-element');
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      const element = e.currentTarget as HTMLElement;
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      const distance = Math.sqrt(x * x + y * y);
+      const maxDistance = Math.max(rect.width, rect.height) / 2;
+      
+      if (distance < maxDistance) {
+        const strength = (maxDistance - distance) / maxDistance;
+        const moveX = (x / maxDistance) * strength * 20;
+        const moveY = (y / maxDistance) * strength * 20;
+        
+        element.style.setProperty('--mouse-x', `${moveX}px`);
+        element.style.setProperty('--mouse-y', `${moveY}px`);
+        element.classList.add('animate-magnetic-pull');
+      } else {
+        element.style.setProperty('--mouse-x', '0px');
+        element.style.setProperty('--mouse-y', '0px');
+        element.classList.remove('animate-magnetic-pull');
+      }
+    };
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      const element = e.currentTarget as HTMLElement;
+      element.style.setProperty('--mouse-x', '0px');
+      element.style.setProperty('--mouse-y', '0px');
+      element.classList.remove('animate-magnetic-pull');
+    };
+
+    elements.forEach((element) => {
+      element.addEventListener('mousemove', handleMouseMove as EventListener);
+      element.addEventListener('mouseleave', handleMouseLeave as EventListener);
+    });
+
+    return () => {
+      elements.forEach((element) => {
+        element.removeEventListener('mousemove', handleMouseMove as EventListener);
+        element.removeEventListener('mouseleave', handleMouseLeave as EventListener);
+      });
+    };
+  }, []);
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -104,9 +197,24 @@ const Volunteer = () => {
   ];
 
   return (
-    <div className="py-12">
-      {/* Header - Enhanced */}
-      <section className="hero-luxury-bg hero-volunteer text-cream-soft py-24 relative overflow-hidden">
+    <div>
+      {/* Header with Video Background */}
+      <section className="text-cream-elegant py-32 relative overflow-hidden min-h-[70vh] flex items-center">
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="hero-video absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://videos.pexels.com/video-files/6647112/6647112-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/5877723/5877723-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Video Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-logo-teal/90 via-logo-navy/85 to-logo-teal-light/88"></div>
+        
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
@@ -116,9 +224,9 @@ const Volunteer = () => {
         
         {/* Animated Background Shapes */}
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/20 rounded-full animate-float-gentle"></div>
-          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/20 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
-          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+          <div className="absolute top-20 left-20 w-32 h-32 bg-logo-teal/25 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal-light/25 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-logo-navy-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
@@ -132,8 +240,17 @@ const Volunteer = () => {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Why Volunteer Section - Enhanced */}
-        <div className="mb-16 relative overflow-hidden">
+        {/* Why Volunteer Section - Enhanced with Background */}
+        <div className="mb-16 relative overflow-hidden rounded-3xl p-8">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src="https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+              alt="Volunteer Community"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/96 via-cream-white/94 to-cream-elegant/95"></div>
+          </div>
           <div className="particle-container absolute inset-0 opacity-30"></div>
           <div className="relative z-10">
             <div className="text-center mb-12 scroll-reveal">

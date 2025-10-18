@@ -1,14 +1,95 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Users, Target, Award, Heart, CheckCircle, Star, Quote, Globe, Lightbulb, Shield, Handshake } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
+import { useActivityLogger } from '../hooks/useActivityLogger';
 
 const Home = () => {
+  const { currentTheme } = useTheme();
+  const { logPageVisit } = useActivityLogger();
   const [counters, setCounters] = useState({
     volunteers: 0,
     projects: 0,
     communities: 0,
     lives: 0
   });
+
+  // Log page visit
+  useEffect(() => {
+    logPageVisit('Home');
+  }, []);
+
+  // Initialize scroll reveal effects
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    const elements = document.querySelectorAll('.scroll-reveal');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
+
+  // Initialize magnetic effects
+  useEffect(() => {
+    const elements = document.querySelectorAll('.magnetic-element');
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      const element = e.currentTarget as HTMLElement;
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      const distance = Math.sqrt(x * x + y * y);
+      const maxDistance = Math.max(rect.width, rect.height) / 2;
+      
+      if (distance < maxDistance) {
+        const strength = (maxDistance - distance) / maxDistance;
+        const moveX = (x / maxDistance) * strength * 20;
+        const moveY = (y / maxDistance) * strength * 20;
+        
+        element.style.setProperty('--mouse-x', `${moveX}px`);
+        element.style.setProperty('--mouse-y', `${moveY}px`);
+        element.classList.add('animate-magnetic-pull');
+      } else {
+        element.style.setProperty('--mouse-x', '0px');
+        element.style.setProperty('--mouse-y', '0px');
+        element.classList.remove('animate-magnetic-pull');
+      }
+    };
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      const element = e.currentTarget as HTMLElement;
+      element.style.setProperty('--mouse-x', '0px');
+      element.style.setProperty('--mouse-y', '0px');
+      element.classList.remove('animate-magnetic-pull');
+    };
+
+    elements.forEach((element) => {
+      element.addEventListener('mousemove', handleMouseMove as EventListener);
+      element.addEventListener('mouseleave', handleMouseLeave as EventListener);
+    });
+
+    return () => {
+      elements.forEach((element) => {
+        element.removeEventListener('mousemove', handleMouseMove as EventListener);
+        element.removeEventListener('mouseleave', handleMouseLeave as EventListener);
+      });
+    };
+  }, []);
 
   const impactStats = [
     { number: '5000+', label: 'Active Volunteers', icon: Users, key: 'volunteers', target: 5000 },
@@ -117,8 +198,23 @@ const Home = () => {
 
   return (
     <div>
-      {/* Hero Section - Enhanced Emotional Design */}
-      <section className="hero-luxury-bg hero-home min-h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Hero Section with Video Background */}
+      <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="hero-video absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/5877723/5877723-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Video Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-logo-navy/92 via-logo-navy-light/88 to-logo-teal/85"></div>
+        
         {/* Enhanced 3D Floating Elements */}
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
@@ -136,9 +232,9 @@ const Home = () => {
         
         {/* Animated Background Shapes */}
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/20 rounded-full animate-float-gentle"></div>
-          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/20 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
-          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+          <div className="absolute top-20 left-20 w-32 h-32 bg-logo-teal/25 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal-light/25 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-logo-navy-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center relative z-10">
@@ -212,7 +308,7 @@ const Home = () => {
                 <div className="service-icon-luxury w-20 h-20 flex items-center justify-center mx-auto mb-8 group-hover:animate-pulse-glow">
                   <stat.icon className="w-10 h-10 text-white group-hover:animate-float-gentle" />
                 </div>
-                <h3 className="text-5xl font-luxury-display impact-counter mb-4 animate-counter text-cream-elegant group-hover:text-vibrant-orange-light transition-colors">
+                <h3 className="text-5xl font-luxury-display impact-counter mb-4 animate-counter text-cream-elegant group-hover:text-logo-teal-light transition-colors">
                   {stat.key === 'lives' ? `${Math.floor(counters[stat.key] / 1000)}K+` : `${counters[stat.key]}+`}
                 </h3>
                 <p className="text-cream-elegant/90 font-luxury-medium text-lg group-hover:text-cream-elegant transition-colors">{stat.label}</p>
@@ -230,7 +326,7 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="relative scroll-reveal">
               <div className="luxury-card bg-logo-navy p-12 text-center relative overflow-hidden interactive-3d group">
-                <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/20 to-transparent group-hover:from-vibrant-orange/30 transition-all duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-logo-teal/20 to-transparent group-hover:from-logo-teal/30 transition-all duration-500"></div>
                 <div className="service-icon-luxury w-32 h-32 flex items-center justify-center mx-auto mb-8 group-hover:animate-pulse-glow">
                   <Heart className="w-16 h-16 text-white group-hover:animate-breathing" />
                 </div>
@@ -272,8 +368,17 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Programs & Services - Enhanced */}
-      <section className="py-24 bg-cream-white relative overflow-hidden">
+      {/* Programs & Services - Enhanced with Background */}
+      <section className="py-24 relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+            alt="Community Programs"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-cream-white/98 to-cream-elegant/95"></div>
+        </div>
         <div className="blend-overlay-soft"></div>
         <div className="particle-container absolute inset-0 opacity-30"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -298,7 +403,7 @@ const Home = () => {
                 <p className={`font-elegant-body text-lg leading-relaxed relative z-10 group-hover:text-black transition-colors duration-300 ${program.color.includes('navy') ? 'text-cream-elegant/80' : 'text-black'}`}>
                   {program.description}
                 </p>
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-vibrant-orange to-vibrant-orange-light transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-logo-teal to-logo-teal-light transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
               </div>
             ))}
           </div>
@@ -333,7 +438,7 @@ const Home = () => {
                       alt={testimonial.name}
                       className="w-20 h-20 rounded-full object-cover border-4 border-vibrant-orange/30 group-hover:border-vibrant-orange transition-all duration-300"
                     />
-                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-vibrant-orange rounded-full flex items-center justify-center group-hover:animate-breathing">
+                    <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-logo-teal rounded-full flex items-center justify-center group-hover:animate-breathing">
                       <CheckCircle className="w-5 h-5 text-white" />
                     </div>
                   </div>
@@ -347,11 +452,11 @@ const Home = () => {
                 
                 <div className="flex mb-6">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-6 h-6 text-vibrant-orange fill-current group-hover:animate-pulse" style={{animationDelay: `${i * 0.1}s`}} />
+                    <Star key={i} className="w-6 h-6 text-logo-teal fill-current group-hover:animate-pulse" style={{animationDelay: `${i * 0.1}s`}} />
                   ))}
                 </div>
                 
-                <Quote className="w-10 h-10 text-vibrant-orange mb-6 group-hover:animate-float-gentle" />
+                <Quote className="w-10 h-10 text-logo-teal mb-6 group-hover:animate-float-gentle" />
                 <p className="font-elegant-body text-lg leading-relaxed luxury-quote text-black group-hover:text-gray-800 transition-colors duration-300">
                   {testimonial.quote}
                 </p>
@@ -374,9 +479,9 @@ const Home = () => {
         
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-40 h-40 bg-vibrant-orange/10 rounded-full animate-float-gentle"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-logo-teal/10 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-vibrant-orange-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+          <div className="absolute top-1/4 left-1/4 w-40 h-40 bg-logo-teal/10 rounded-full animate-float-gentle"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-logo-teal-light/10 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-logo-navy-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
@@ -393,6 +498,19 @@ const Home = () => {
             <Link
               to="/volunteer"
               className="liquid-button text-xl px-16 py-6 inline-flex items-center group animate-text-reveal shadow-luxury-glow-lg hover:shadow-luxury-glow-lg"
+              style={{animationDelay: '0.6s'}}
+            >
+              Become a Volunteer
+              <ArrowRight className="ml-4 w-7 h-7 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Home;          className="liquid-button text-xl px-16 py-6 inline-flex items-center group animate-text-reveal shadow-luxury-glow-lg hover:shadow-luxury-glow-lg"
               style={{animationDelay: '0.6s'}}
             >
               Become a Volunteer

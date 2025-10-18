@@ -1,19 +1,112 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Clock, MapPin, Users, ChevronRight, Filter, Search, Heart, BookOpen, Wrench, Leaf, Plus, Star, Award } from 'lucide-react';
 import { db } from '../config/firebase';
 import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
 import { EventSubmission } from '../types/submissions';
-import { useScrollReveal } from '../hooks/useScrollReveal';
-import { useMagneticEffect } from '../hooks/useMagneticEffect';
+import { useTheme } from '../contexts/ThemeContext';
+import { useActivityLogger } from '../hooks/useActivityLogger';
 
 const Events = () => {
+  const { currentTheme } = useTheme();
+  const { logPageVisit } = useActivityLogger();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedMonth, setSelectedMonth] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [approvedEvents, setApprovedEvents] = useState<EventSubmission[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Log page visit
+  useEffect(() => {
+    logPageVisit('Events');
+  }, []);
+
+  // Initialize scroll reveal effects
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      }
+    );
+
+    const elements = document.querySelectorAll('.scroll-reveal');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      elements.forEach((el) => observer.unobserve(el));
+    };
+  }, []);
+
+  // Initialize parallax effect for hero video
+  useEffect(() => {
+    const video = document.querySelector('.hero-video') as HTMLElement;
+    if (!video) return;
+
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * 0.5;
+      video.style.transform = `translateY(${rate}px)`;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Initialize magnetic effects
+  useEffect(() => {
+    const elements = document.querySelectorAll('.magnetic-element');
+    
+    const handleMouseMove = (e: MouseEvent) => {
+      const element = e.currentTarget as HTMLElement;
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      
+      const distance = Math.sqrt(x * x + y * y);
+      const maxDistance = Math.max(rect.width, rect.height) / 2;
+      
+      if (distance < maxDistance) {
+        const strength = (maxDistance - distance) / maxDistance;
+        const moveX = (x / maxDistance) * strength * 20;
+        const moveY = (y / maxDistance) * strength * 20;
+        
+        element.style.setProperty('--mouse-x', `${moveX}px`);
+        element.style.setProperty('--mouse-y', `${moveY}px`);
+        element.classList.add('animate-magnetic-pull');
+      } else {
+        element.style.setProperty('--mouse-x', '0px');
+        element.style.setProperty('--mouse-y', '0px');
+        element.classList.remove('animate-magnetic-pull');
+      }
+    };
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      const element = e.currentTarget as HTMLElement;
+      element.style.setProperty('--mouse-x', '0px');
+      element.style.setProperty('--mouse-y', '0px');
+      element.classList.remove('animate-magnetic-pull');
+    };
+
+    elements.forEach((element) => {
+      element.addEventListener('mousemove', handleMouseMove as EventListener);
+      element.addEventListener('mouseleave', handleMouseLeave as EventListener);
+    });
+
+    return () => {
+      elements.forEach((element) => {
+        element.removeEventListener('mousemove', handleMouseMove as EventListener);
+        element.removeEventListener('mouseleave', handleMouseLeave as EventListener);
+      });
+    };
+  }, []);
 
   const staticEvents = [
     {
@@ -288,8 +381,23 @@ Or create the index in Firebase Console.
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section - Enhanced */}
-      <div className="hero-luxury-bg hero-events text-cream-elegant py-20 relative overflow-hidden">
+      {/* Hero Section with Video Background */}
+      <div className="text-cream-elegant py-24 relative overflow-hidden min-h-[60vh] flex items-center">
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="hero-video absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://videos.pexels.com/video-files/3184292/3184292-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Video Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-logo-navy/92 via-logo-teal/85 to-logo-teal-light/88"></div>
+        
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
         <div className="floating-3d-luxury magnetic-element"></div>
@@ -299,9 +407,9 @@ Or create the index in Firebase Console.
         
         {/* Animated Background Shapes */}
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/20 rounded-full animate-float-gentle"></div>
-          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/20 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
-          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+          <div className="absolute top-20 left-20 w-32 h-32 bg-logo-teal/25 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal-light/25 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-logo-navy-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
