@@ -29,6 +29,7 @@ export const useContent = (section: string, slug?: string) => {
           const docData = docSnap.data();
           setData(docData.data || null);
         } else {
+          console.warn(`Content not found: ${section}_${slug}`);
           setData(null);
         }
       } else {
@@ -44,12 +45,31 @@ export const useContent = (section: string, slug?: string) => {
           id: doc.id,
           ...doc.data().data
         }));
+        console.log(`✓ Loaded ${items.length} items for section: ${section}`);
         setData(items);
       }
       setError(null);
     } catch (err) {
-      setError(err as Error);
-      console.error('Error fetching content:', err);
+      const error = err as Error;
+      setError(error);
+      console.error(`❌ Error fetching content for section "${section}":`, error.message);
+      
+      // Check for common index errors
+      if (error.message?.includes('index')) {
+        console.error(`
+🔥 FIRESTORE INDEX MISSING! 🔥
+Section: ${section}
+Error: ${error.message}
+
+To fix this, run:
+  firebase deploy --only firestore:indexes
+
+Or visit the Firebase Console and create the required indexes.
+        `);
+      }
+      
+      // Set empty array for list queries, null for single doc queries
+      setData(slug ? null : []);
     } finally {
       setLoading(false);
     }

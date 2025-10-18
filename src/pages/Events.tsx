@@ -171,9 +171,24 @@ const Events = () => {
         };
       });
 
+      console.log(`✓ Loaded ${events.length} approved events`);
       setApprovedEvents(events);
-    } catch (error) {
-      console.error('Error fetching approved events:', error);
+    } catch (error: any) {
+      console.error('❌ Error fetching approved events:', error);
+      if (error?.message?.includes('index')) {
+        console.error(`
+🔥 FIRESTORE INDEX MISSING FOR EVENT_SUBMISSIONS! 🔥
+
+Required composite index:
+  Collection: event_submissions
+  Fields: status (ASC), isVisible (ASC), submittedAt (DESC)
+
+To fix: Run 'firebase deploy --only firestore:indexes'
+Or create the index in Firebase Console.
+        `);
+      }
+      // Set empty array so page still renders with static events
+      setApprovedEvents([]);
     } finally {
       setLoading(false);
     }
