@@ -44,6 +44,10 @@ const Dashboard = () => {
   const [submissions, setSubmissions] = useState<SubmissionWithType[]>([]);
   const [drafts, setDrafts] = useState<SubmissionWithType[]>([]);
 
+  // Initialize scroll reveal and magnetic effects
+  useScrollReveal();
+  useMagneticEffect();
+
   useEffect(() => {
     if (currentUser && userData) {
       fetchUserActivities();
