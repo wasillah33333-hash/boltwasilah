@@ -326,19 +326,59 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="particle-container"></div>
-        <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/10 rounded-full animate-float-gentle"></div>
-        <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/10 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/5 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+      {/* Hero Section with Video Background */}
+      <div className="relative h-[60vh] mb-12 overflow-hidden">
+        {/* Video Background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://videos.pexels.com/video-files/6646918/6646918-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/5877723/5877723-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Video Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-logo-navy/90 via-logo-navy/80 to-vibrant-orange/75"></div>
+        
+        {/* Animated Particles */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="particle-container"></div>
+          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/20 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/20 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-cream-elegant/10 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div className="text-center text-white">
+              <h1 className="text-6xl md:text-7xl font-modern-display mb-6 animate-text-reveal">
+                Welcome back, {userData?.displayName || 'Friend'}! 👋
+              </h1>
+              <p className="text-2xl font-elegant-body mb-8 animate-text-reveal" style={{animationDelay: '0.3s'}}>
+                Ready to make a difference today?
+              </p>
+              <div className="inline-block magnetic-element group">
+                <div className="bg-white/10 backdrop-blur-md border-2 border-white/30 rounded-luxury px-8 py-4 hover:bg-white/20 transition-all duration-300">
+                  <div className="text-5xl font-modern-display text-gradient-animated mb-2 group-hover:animate-pulse-glow">
+                    {stats.impactScore}
+                  </div>
+                  <div className="text-sm uppercase tracking-wider">Your Impact Score</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Welcome Header - Enhanced */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 -mt-24 mb-12">
+        {/* Stats Cards - Enhanced with Background */}
         <div className="mb-8 scroll-reveal">
-          <div className="luxury-card bg-white p-8 relative overflow-hidden">
+          <div className="luxury-card bg-white/95 backdrop-blur-sm p-8 relative overflow-hidden">
             <div 
               className="absolute inset-0 opacity-10"
               style={{ background: currentTheme.colors.primary }}
@@ -365,8 +405,21 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Stats Cards - Enhanced */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 stagger-animation">
+        {/* Stats Cards Section with Background Image */}
+        <div className="relative p-8 rounded-3xl overflow-hidden mb-12">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src="https://images.pexels.com/photos/6646914/pexels-photo-6646914.jpeg?auto=compress&cs=tinysrgb&w=1920" 
+              alt="Community Background"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/90 to-cream-elegant/95"></div>
+          </div>
+          
+          <div className="relative z-10">
+            <h2 className="text-3xl font-modern-display text-black mb-6 text-center">Your Impact Dashboard</h2>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 stagger-animation">
           <div className="luxury-card bg-white p-6 text-center floating-card magnetic-element group">
             <div 
               className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse-glow"
