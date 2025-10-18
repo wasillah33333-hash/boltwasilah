@@ -21,12 +21,14 @@ import DonationWidget from './components/DonationWidget';
 import AdminToggle from './components/AdminToggle';
 import { useActivityLogger } from './hooks/useActivityLogger';
 import { setupMigrationTools } from './utils/runMigration';
+import { initScrollReveal } from './utils/scrollReveal';
 
 const AppContent = () => {
   useActivityLogger();
 
   useEffect(() => {
     setupMigrationTools();
+    initScrollReveal();
   }, []);
 
   return (

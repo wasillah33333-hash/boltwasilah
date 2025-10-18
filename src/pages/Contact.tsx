@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Clock, Facebook, Twitter, Instagram, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Facebook, Twitter, Instagram, Send, Heart, Star } from 'lucide-react';
 import { sendEmail, formatContactMessageEmail } from '../utils/emailService';
 import { useAuth } from '../contexts/AuthContext';
 import { useActivityLogger } from '../hooks/useActivityLogger';
+import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useMagneticEffect } from '../hooks/useMagneticEffect';
 
 const Contact = () => {
   const { logCustomActivity } = useActivityLogger();
@@ -126,34 +128,47 @@ const Contact = () => {
 
   return (
     <div className="py-12">
-      {/* Header */}
+      {/* Header - Enhanced */}
       <section className="hero-luxury-bg text-cream-soft py-24 relative overflow-hidden">
-        <div className="floating-3d-luxury"></div>
-        <div className="floating-3d-luxury"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="luxury-particle"></div>
+        <div className="luxury-particle"></div>
         <div className="luxury-particle"></div>
         
+        {/* Animated Background Shapes */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/20 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/20 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h1 className="text-6xl md:text-7xl font-luxury-display mb-8 animate-cinematic-fade">Contact Us</h1>
-          <p className="text-2xl font-luxury-body max-w-4xl mx-auto">
-            Get in touch with us to learn more about our work or to get involved in our community initiatives
-          </p>
+          <div className="animate-cinematic-fade">
+            <h1 className="text-6xl md:text-7xl font-modern-display mb-8 animate-text-reveal">Contact Us</h1>
+            <p className="text-2xl font-elegant-body max-w-4xl mx-auto animate-text-reveal" style={{animationDelay: '0.3s'}}>
+              Get in touch with us to learn more about our work or to get involved in our community initiatives
+            </p>
+          </div>
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Contact Information Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        {/* Contact Information Cards - Enhanced */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 stagger-animation">
           {contactInfo.map((info, index) => (
-            <div key={index} className="luxury-card bg-cream-white p-8 text-center luxury-hover-scale">
-              <div className="service-icon-luxury w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                <info.icon className="w-8 h-8 text-white" />
+            <div key={index} className="luxury-card bg-cream-white p-8 text-center floating-card magnetic-element group">
+              <div className="service-icon-luxury w-16 h-16 flex items-center justify-center mx-auto mb-6 group-hover:animate-pulse-glow">
+                <info.icon className="w-8 h-8 text-white group-hover:animate-float-gentle" />
               </div>
-              <h3 className="text-xl font-luxury-heading text-text-dark mb-4">{info.title}</h3>
+              <h3 className="text-xl font-luxury-heading text-text-dark mb-4 group-hover:text-gradient-animated transition-all duration-500">{info.title}</h3>
               <div className="space-y-1">
                 {info.details.map((detail, idx) => (
-                  <p key={idx} className="text-text-medium font-luxury-body">{detail}</p>
+                  <p key={idx} className="text-text-medium font-elegant-body group-hover:text-gray-800 transition-colors duration-300">{detail}</p>
                 ))}
               </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
             </div>
           ))}
         </div>

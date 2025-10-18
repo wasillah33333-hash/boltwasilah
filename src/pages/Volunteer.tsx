@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Heart, Users, Star, CheckCircle, ArrowRight } from 'lucide-react';
+import { Heart, Users, Star, CheckCircle, ArrowRight, Award, Globe, Lightbulb } from 'lucide-react';
 import { sendEmail, formatVolunteerApplicationEmail } from '../utils/emailService';
 import { useAuth } from '../contexts/AuthContext';
 import { useActivityLogger } from '../hooks/useActivityLogger';
+import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useMagneticEffect } from '../hooks/useMagneticEffect';
 
 const Volunteer = () => {
   const { logCustomActivity } = useActivityLogger();
@@ -103,41 +105,57 @@ const Volunteer = () => {
 
   return (
     <div className="py-12">
-      {/* Header */}
+      {/* Header - Enhanced */}
       <section className="hero-luxury-bg text-cream-soft py-24 relative overflow-hidden">
-        <div className="floating-3d-luxury"></div>
-        <div className="floating-3d-luxury"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="luxury-particle"></div>
+        <div className="luxury-particle"></div>
         <div className="luxury-particle"></div>
         
+        {/* Animated Background Shapes */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/20 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/20 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h1 className="text-6xl md:text-7xl font-luxury-display mb-8 animate-cinematic-fade">Join Our Mission</h1>
-          <p className="text-2xl font-luxury-body max-w-4xl mx-auto">
-            Become a volunteer and be part of the positive change you want to see in the world
-          </p>
+          <div className="animate-cinematic-fade">
+            <h1 className="text-6xl md:text-7xl font-modern-display mb-8 animate-text-reveal">Join Our Mission</h1>
+            <p className="text-2xl font-elegant-body max-w-4xl mx-auto animate-text-reveal" style={{animationDelay: '0.3s'}}>
+              Become a volunteer and be part of the positive change you want to see in the world
+            </p>
+          </div>
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Why Volunteer Section */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-luxury-display text-black mb-8">Why Volunteer with Us?</h2>
-            <p className="text-2xl text-black max-w-4xl mx-auto font-luxury-body">
-              Volunteering with وسیلہ (Waseela) offers you the opportunity to make a meaningful 
-              impact while growing personally and professionally.
-            </p>
-          </div>
+        {/* Why Volunteer Section - Enhanced */}
+        <div className="mb-16 relative overflow-hidden">
+          <div className="particle-container absolute inset-0 opacity-30"></div>
+          <div className="relative z-10">
+            <div className="text-center mb-12 scroll-reveal">
+              <h2 className="text-4xl md:text-5xl font-modern-display text-black mb-8">Why Volunteer with Us?</h2>
+              <p className="text-2xl text-black max-w-4xl mx-auto font-elegant-body">
+                Volunteering with وسیلہ (Waseela) offers you the opportunity to make a meaningful 
+                impact while growing personally and professionally.
+              </p>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="text-center luxury-hover-scale">
-                <div className="service-icon-luxury w-20 h-20 flex items-center justify-center mx-auto mb-6">
-                  <benefit.icon className="w-10 h-10 text-white" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 stagger-animation">
+              {benefits.map((benefit, index) => (
+                <div key={index} className="text-center floating-card magnetic-element group">
+                  <div className="service-icon-luxury w-20 h-20 flex items-center justify-center mx-auto mb-6 group-hover:animate-pulse-glow">
+                    <benefit.icon className="w-10 h-10 text-white group-hover:animate-float-gentle" />
+                  </div>
+                  <h3 className="text-2xl font-luxury-heading text-black mb-4 group-hover:text-gradient-animated transition-all duration-500">{benefit.title}</h3>
+                  <p className="text-black font-elegant-body text-lg group-hover:text-gray-800 transition-colors duration-300">{benefit.description}</p>
+                  <div className="absolute inset-0 bg-gradient-to-br from-vibrant-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-luxury"></div>
                 </div>
-                <h3 className="text-2xl font-luxury-heading text-black mb-4">{benefit.title}</h3>
-                <p className="text-black font-luxury-body text-lg">{benefit.description}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 

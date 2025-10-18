@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Heart, Droplets, Smartphone, Utensils, Wrench, ChevronRight, Users, Calendar, Filter, Search, Plus } from 'lucide-react';
+import { BookOpen, Heart, Droplets, Smartphone, Utensils, Wrench, ChevronRight, Users, Calendar, Filter, Search, Plus, Star, Award } from 'lucide-react';
 import { db } from '../config/firebase';
 import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
 import { ProjectSubmission } from '../types/submissions';
+import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useMagneticEffect } from '../hooks/useMagneticEffect';
 
 const Projects = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -258,19 +260,31 @@ Or create the index in Firebase Console.
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
+      {/* Hero Section - Enhanced */}
       <div className="hero-luxury-bg text-cream-elegant py-20 relative overflow-hidden">
-        <div className="floating-3d-luxury"></div>
-        <div className="floating-3d-luxury"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="floating-3d-luxury magnetic-element"></div>
+        <div className="luxury-particle"></div>
+        <div className="luxury-particle"></div>
         <div className="luxury-particle"></div>
         
+        {/* Animated Background Shapes */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-20 w-32 h-32 bg-vibrant-orange/20 rounded-full animate-float-gentle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-logo-teal/20 rounded-full animate-float-gentle" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-vibrant-orange-light/15 rounded-full animate-float-gentle" style={{animationDelay: '4s'}}></div>
+        </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h1 className="text-6xl md:text-7xl font-luxury-display mb-8 animate-cinematic-fade">
-            Our Projects
-          </h1>
-          <p className="text-2xl font-luxury-body max-w-4xl mx-auto">
-            Transforming communities through sustainable initiatives and collaborative efforts
-          </p>
+          <div className="animate-cinematic-fade">
+            <h1 className="text-6xl md:text-7xl font-modern-display mb-8 animate-text-reveal">
+              Our Projects
+            </h1>
+            <p className="text-2xl font-elegant-body max-w-4xl mx-auto animate-text-reveal" style={{animationDelay: '0.3s'}}>
+              Transforming communities through sustainable initiatives and collaborative efforts
+            </p>
+          </div>
         </div>
       </div>
 
@@ -287,9 +301,9 @@ Or create the index in Firebase Console.
           </Link>
         </div>
 
-        <div className="luxury-card bg-cream-white p-8 mb-8">
+        <div className="luxury-card bg-cream-white p-8 mb-8 scroll-reveal">
           <div className="flex items-center mb-6">
-            <Filter className="w-6 h-6 text-vibrant-orange mr-3" />
+            <Filter className="w-6 h-6 text-vibrant-orange mr-3 animate-pulse-glow" />
             <h2 className="text-2xl font-luxury-heading text-black">Filter Projects</h2>
           </div>
           
@@ -392,14 +406,14 @@ Or create the index in Firebase Console.
             <p className="text-xl font-luxury-heading text-black">Loading projects...</p>
           </div>
         ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-animation">
           {filteredProjects.map((project) => {
             const IconComponent = project.icon;
             return (
               <Link
                 key={project.id}
                 to={`/projects/${project.id}`}
-                className="luxury-card bg-cream-white rounded-luxury-lg shadow-luxury overflow-hidden hover:shadow-luxury-lg transition-all duration-300 transform hover:-translate-y-2 group"
+                className="luxury-card bg-cream-white rounded-luxury-lg shadow-luxury overflow-hidden floating-card magnetic-element group"
               >
                 <div className="relative">
                   <img
@@ -412,8 +426,8 @@ Or create the index in Firebase Console.
                       {getStatusText(project.status)}
                     </span>
                   </div>
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                    <IconComponent className="w-6 h-6 text-vibrant-orange" />
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full p-2 group-hover:animate-pulse-glow">
+                    <IconComponent className="w-6 h-6 text-vibrant-orange group-hover:animate-float-gentle" />
                   </div>
                 </div>
                 
@@ -425,7 +439,7 @@ Or create the index in Firebase Console.
                     <span className="text-sm text-gray-500">{project.location}</span>
                   </div>
                   
-                  <h3 className="text-xl font-luxury-heading text-black mb-3 group-hover:text-vibrant-orange transition-colors">
+                  <h3 className="text-xl font-luxury-heading text-black mb-3 group-hover:text-gradient-animated transition-all duration-500">
                     {project.title}
                   </h3>
                   
@@ -487,55 +501,65 @@ Or create the index in Firebase Console.
         )}
       </div>
 
-      {/* Statistics Section */}
-      <div className="bg-cream-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-luxury-display text-black mb-4">
+      {/* Statistics Section - Enhanced */}
+      <div className="bg-cream-white py-16 relative overflow-hidden">
+        <div className="particle-container absolute inset-0 opacity-30"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-12 scroll-reveal">
+            <h2 className="text-4xl font-modern-display text-black mb-4">
               Our Impact
             </h2>
-            <p className="text-xl text-black font-luxury-body">
+            <p className="text-xl text-black font-elegant-body">
               Together, we're making a measurable difference in our community
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center luxury-hover-scale">
-              <div className="text-5xl font-luxury-display text-vibrant-orange mb-2">6</div>
-              <div className="text-black font-luxury-body">Active Projects</div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 stagger-animation">
+            <div className="text-center floating-card magnetic-element group">
+              <div className="text-5xl font-luxury-display text-gradient-animated mb-2 group-hover:animate-pulse-glow">6</div>
+              <div className="text-black font-elegant-body group-hover:text-gray-800 transition-colors">Active Projects</div>
             </div>
-            <div className="text-center luxury-hover-scale">
-              <div className="text-5xl font-luxury-display text-vibrant-orange mb-2">208</div>
-              <div className="text-black font-luxury-body">Volunteers</div>
+            <div className="text-center floating-card magnetic-element group">
+              <div className="text-5xl font-luxury-display text-gradient-animated mb-2 group-hover:animate-pulse-glow">208</div>
+              <div className="text-black font-elegant-body group-hover:text-gray-800 transition-colors">Volunteers</div>
             </div>
-            <div className="text-center luxury-hover-scale">
-              <div className="text-5xl font-luxury-display text-vibrant-orange mb-2">1,670</div>
-              <div className="text-black font-luxury-body">People Helped</div>
+            <div className="text-center floating-card magnetic-element group">
+              <div className="text-5xl font-luxury-display text-gradient-animated mb-2 group-hover:animate-pulse-glow">1,670</div>
+              <div className="text-black font-elegant-body group-hover:text-gray-800 transition-colors">People Helped</div>
             </div>
-            <div className="text-center luxury-hover-scale">
-              <div className="text-5xl font-luxury-display text-vibrant-orange mb-2">12</div>
-              <div className="text-black font-luxury-body">Communities</div>
+            <div className="text-center floating-card magnetic-element group">
+              <div className="text-5xl font-luxury-display text-gradient-animated mb-2 group-hover:animate-pulse-glow">12</div>
+              <div className="text-black font-elegant-body group-hover:text-gray-800 transition-colors">Communities</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Call to Action */}
+      {/* Call to Action - Enhanced */}
       <div className="cta-parallax py-16 text-cream-elegant relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="floating-3d-luxury opacity-30 magnetic-element"></div>
+          <div className="floating-3d-luxury opacity-20 magnetic-element"></div>
+          <div className="floating-3d-luxury opacity-25 magnetic-element"></div>
+        </div>
+        
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-4xl font-luxury-display mb-6">
-            Join Our Mission
-          </h2>
-          <p className="text-xl text-cream-elegant/80 font-luxury-body mb-8">
-            Be part of meaningful projects that create lasting positive change in communities
-          </p>
-          <Link
-            to="/volunteer"
-            className="btn-luxury-primary text-lg px-8 py-4 inline-flex items-center"
-          >
-            Get Involved
-            <ChevronRight className="w-5 h-5 ml-2" />
-          </Link>
+          <div className="scroll-reveal">
+            <h2 className="text-4xl font-modern-display mb-6 animate-text-reveal">
+              Join Our Mission
+            </h2>
+            <p className="text-xl text-cream-elegant/80 font-elegant-body mb-8 animate-text-reveal" style={{animationDelay: '0.3s'}}>
+              Be part of meaningful projects that create lasting positive change in communities
+            </p>
+            <Link
+              to="/volunteer"
+              className="liquid-button text-lg px-8 py-4 inline-flex items-center group animate-text-reveal"
+              style={{animationDelay: '0.6s'}}
+            >
+              Get Involved
+              <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
