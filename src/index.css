@@ -375,7 +375,7 @@
   z-index: -1;
 }
 
-/* Hero Background - Enhanced */
+/* Hero Background - Enhanced with Storytelling Images */
 .hero-luxury-bg {
   background: linear-gradient(135deg, 
     #2C3E50 0%, 
@@ -394,11 +394,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 30%, rgba(230, 126, 34, 0.1) 0%, transparent 60%),
-    radial-gradient(circle at 80% 70%, rgba(22, 160, 133, 0.15) 0%, transparent 60%),
-    radial-gradient(circle at 40% 80%, rgba(230, 126, 34, 0.08) 0%, transparent 50%);
-  animation: parallax-float 15s ease-in-out infinite;
+  background-image: url('https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&cs=tinysrgb&w=1920');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  opacity: 0.15;
+  animation: parallax-float 20s ease-in-out infinite;
 }
 
 .hero-luxury-bg::after {
@@ -409,9 +410,106 @@
   right: 0;
   bottom: 0;
   background: 
-    linear-gradient(45deg, transparent 30%, rgba(230, 126, 34, 0.05) 50%, transparent 70%),
-    linear-gradient(-45deg, transparent 30%, rgba(22, 160, 133, 0.05) 50%, transparent 70%);
+    radial-gradient(circle at 20% 30%, rgba(230, 126, 34, 0.2) 0%, transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(22, 160, 133, 0.25) 0%, transparent 60%),
+    linear-gradient(135deg, rgba(44, 62, 80, 0.9), rgba(26, 37, 47, 0.95));
   animation: gradient-shift 10s ease infinite;
+}
+
+/* Home Hero with Community Image */
+.hero-home {
+  background-image: url('https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1920');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.92), rgba(22, 160, 133, 0.85));
+  z-index: 1;
+}
+
+/* About Hero with Mission Image */
+.hero-about {
+  background-image: url('https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&w=1920');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-about::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.88), rgba(230, 126, 34, 0.75));
+  z-index: 1;
+}
+
+/* Projects Hero with Action Image */
+.hero-projects {
+  background-image: url('https://images.pexels.com/photos/6647034/pexels-photo-6647034.jpeg?auto=compress&cs=tinysrgb&w=1920');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-projects::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(26, 37, 47, 0.9), rgba(22, 160, 133, 0.8));
+  z-index: 1;
+}
+
+/* Events Hero with Gathering Image */
+.hero-events {
+  background-image: url('https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1920');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-events::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.9), rgba(243, 156, 18, 0.75));
+  z-index: 1;
+}
+
+/* Volunteer Hero with Heart Image */
+.hero-volunteer {
+  background-image: url('https://images.pexels.com/photos/6647112/pexels-photo-6647112.jpeg?auto=compress&cs=tinysrgb&w=1920');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-volunteer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(230, 126, 34, 0.88), rgba(44, 62, 80, 0.85));
+  z-index: 1;
+}
+
+/* Contact Hero with Connection Image */
+.hero-contact {
+  background-image: url('https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1920');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.hero-contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(22, 160, 133, 0.9), rgba(44, 62, 80, 0.85));
+  z-index: 1;
 }
 
 /* Enhanced 3D Floating Elements */
@@ -749,9 +847,12 @@
   box-shadow: 0 30px 60px rgba(44, 62, 80, 0.2);
 }
 
-/* Parallax CTA Banner */
+/* Parallax CTA Banner with Emotional Background */
 .cta-parallax {
-  background: linear-gradient(135deg, #2C3E50 0%, #34495E 50%, #1A252F 100%);
+  background-image: url('https://images.pexels.com/photos/6646914/pexels-photo-6646914.jpeg?auto=compress&cs=tinysrgb&w=1920');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   position: relative;
   overflow: hidden;
 }
@@ -763,10 +864,22 @@
   left: 0;
   right: 0;
   bottom: 0;
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.93), rgba(230, 126, 34, 0.88));
+  animation: gradient-shift 8s ease infinite;
+}
+
+.cta-parallax::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: 
     radial-gradient(circle at 30% 40%, rgba(230, 126, 34, 0.15) 0%, transparent 70%),
     radial-gradient(circle at 70% 60%, rgba(22, 160, 133, 0.1) 0%, transparent 70%);
   animation: wave-motion 10s ease-in-out infinite;
+  pointer-events: none;
 }
 
 /* Responsive Design */
@@ -989,6 +1102,143 @@
   height: 2px;
   background: linear-gradient(90deg, transparent, #E67E22, transparent);
   margin: 4rem 0;
+}
+
+/* Logo Integration & Blending */
+.logo-integrated {
+  position: relative;
+  z-index: 10;
+}
+
+.logo-container-hero {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 0 auto;
+}
+
+.logo-container-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 35px rgba(230, 126, 34, 0.4));
+  animation: breathing 4s ease-in-out infinite;
+}
+
+.logo-glow-ring {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(230, 126, 34, 0.3), transparent 70%);
+  animation: pulse-glow 3s ease-in-out infinite;
+  z-index: -1;
+}
+
+.logo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px;
+  background: rgba(248, 246, 240, 0.15);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(230, 126, 34, 0.3);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.logo-badge:hover {
+  background: rgba(248, 246, 240, 0.25);
+  border-color: rgba(230, 126, 34, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(230, 126, 34, 0.3);
+}
+
+.logo-badge img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: brightness(1.1);
+}
+
+/* Storytelling Section Backgrounds */
+.section-story-community {
+  background-image: url('https://images.pexels.com/photos/6646915/pexels-photo-6646915.jpeg?auto=compress&cs=tinysrgb&w=1920');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.section-story-community::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(248, 246, 240, 0.95), rgba(255, 255, 255, 0.92));
+}
+
+.section-story-impact {
+  background-image: url('https://images.pexels.com/photos/6647119/pexels-photo-6647119.jpeg?auto=compress&cs=tinysrgb&w=1920');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.section-story-impact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.92), rgba(26, 37, 47, 0.95));
+}
+
+.section-story-volunteers {
+  background-image: url('https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=1920');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.section-story-volunteers::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(230, 126, 34, 0.9), rgba(243, 156, 18, 0.88));
+}
+
+/* Overlay Patterns for Depth */
+.overlay-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(230, 126, 34, 0.02) 10px, rgba(230, 126, 34, 0.02) 20px),
+    repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(22, 160, 133, 0.02) 10px, rgba(22, 160, 133, 0.02) 20px);
+  pointer-events: none;
+}
+
+.blend-overlay-soft {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(44, 62, 80, 0.1) 100%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.blend-overlay-vibrant {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top left, rgba(230, 126, 34, 0.1), transparent 60%),
+              radial-gradient(ellipse at bottom right, rgba(22, 160, 133, 0.1), transparent 60%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* Enhanced Section Transitions */
+.section-transition {
+  position: relative;
+  margin-top: -100px;
+  padding-top: 120px;
+  clip-path: polygon(0 100px, 100% 0, 100% 100%, 0 100%);
 }
 
 /* Better Text Visibility */
